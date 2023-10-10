@@ -1,72 +1,83 @@
+import { useState } from "react";
 import Link from "next/link";
 import type { NextPage } from "next";
-import { BugAntIcon, MagnifyingGlassIcon, SparklesIcon } from "@heroicons/react/24/outline";
+import { parseEther } from "viem";
+// import { BugAntIcon, MagnifyingGlassIcon, SparklesIcon } from "@heroicons/react/24/outline";
 import { MetaHeader } from "~~/components/MetaHeader";
+import { Balance, EtherInput } from "~~/components/scaffold-eth";
+import { useScaffoldContractWrite } from "~~/hooks/scaffold-eth";
+import { multiplyTo1e18 } from "~~/utils/scaffold-eth/priceInWei";
 
 const Home: NextPage = () => {
-  return (
-    <>
-      <MetaHeader />
-      <div className="flex items-center flex-col flex-grow pt-10">
-        <div className="px-5">
-          <h1 className="text-center mb-8">
-            <span className="block text-2xl mb-2">Welcome to</span>
-            <span className="block text-4xl font-bold">Scaffold-ETH 2</span>
-          </h1>
-          <p className="text-center text-lg">
-            Get started by editing{" "}
-            <code className="italic bg-base-300 text-base font-bold max-w-full break-words break-all inline-block">
-              packages/nextjs/pages/index.tsx
-            </code>
-          </p>
-          <p className="text-center text-lg">
-            Edit your smart contract{" "}
-            <code className="italic bg-base-300 text-base font-bold max-w-full break-words break-all inline-block">
-              YourContract.sol
-            </code>{" "}
-            in{" "}
-            <code className="italic bg-base-300 text-base font-bold max-w-full break-words break-all inline-block">
-              packages/hardhat/contracts
-            </code>
-          </p>
-        </div>
+  const [usdcAmount, setUsdcAmount] = useState("");
+  interface TransactionReceipt {
+    blockHash: string;
+  }
 
-        <div className="flex-grow bg-base-300 w-full mt-16 px-8 py-12">
-          <div className="flex justify-center items-center gap-12 flex-col sm:flex-row">
-            <div className="flex flex-col bg-base-100 px-10 py-10 text-center items-center max-w-xs rounded-3xl">
-              <BugAntIcon className="h-8 w-8 fill-secondary" />
-              <p>
-                Tinker with your smart contract using the{" "}
-                <Link href="/debug" passHref className="link">
-                  Debug Contract
-                </Link>{" "}
-                tab.
-              </p>
-            </div>
-            <div className="flex flex-col bg-base-100 px-10 py-10 text-center items-center max-w-xs rounded-3xl">
-              <SparklesIcon className="h-8 w-8 fill-secondary" />
-              <p>
-                Experiment with{" "}
-                <Link href="/example-ui" passHref className="link">
-                  Example UI
-                </Link>{" "}
-                to build your own UI.
-              </p>
-            </div>
-            <div className="flex flex-col bg-base-100 px-10 py-10 text-center items-center max-w-xs rounded-3xl">
-              <MagnifyingGlassIcon className="h-8 w-8 fill-secondary" />
-              <p>
-                Explore your local transactions with the{" "}
-                <Link href="/blockexplorer" passHref className="link">
-                  Block Explorer
-                </Link>{" "}
-                tab.
-              </p>
-            </div>
+  const { writeAsync: deposit } = useScaffoldContractWrite({
+    contractName: "Vault",
+    functionName: "deposit_USDC",
+    args: [BigInt(multiplyTo1e18(usdcAmount))],
+    // value: parseEther(ethAmount),
+    onBlockConfirmation: (txnReceipt: TransactionReceipt) => {
+      console.log("📦 Transaction blockHash", txnReceipt.blockHash);
+    },
+  });
+
+  return (
+    <div className="flex items-center flex-col flex-grow pt-10">
+      <div className="tabs tabs-boxed flex justify-between w-screen px-6 pb-4 lg:justify-evenly lg:w-[520px]">
+        <Link href="/exchange" className="tab text-xl">
+          Exchange
+        </Link>
+        <Link href="/" className="tab text-xl">
+          Vault
+        </Link>
+        <Link href="/trade" className="tab text-xl">
+          Trade
+        </Link>
+        <Link href="/shift" className="tab text-xl">
+          Shift
+        </Link>
+      </div>
+
+      <div className="card w-96 bg-base-100 shadow-xl mt-8">
+        <div className="card-body">
+          <h2 className="card-title">Deposit</h2>
+          <EtherInput value={usdcAmount} onChange={amount => setUsdcAmount(amount)} />
+          <div className="card-actions justify-end pt-4">
+            <button
+              className="btn btn-primary"
+              onClick={() => {
+                deposit();
+              }}
+            >
+              Deposit
+            </button>
           </div>
         </div>
       </div>
-    </>
+
+      <div className="card w-96 bg-base-100 shadow-xl mt-8">
+        <div className="card-body">
+          <h2 className="card-title">Withdraw</h2>
+          {/* <EtherInput value={ethAmount} onChange={amount => setEthAmount(amount)} /> */}
+          <div className="card-actions justify-end pt-4">
+            <button className="btn btn-primary">Withdraw</button>
+          </div>
+        </div>
+      </div>
+
+      <div className="text-2xl flex flex-row items-center p-4">
+        <h1>Your Balance:</h1>
+        <Balance className="text-xl mb-1" address="0x7A0e13Dd29851e3FE1DDd3Cd3D41Eb161E1DebAD" />
+      </div>
+
+      <div className="text-2xl flex flex-row items-center p-4">
+        <h1>Vault Balance:</h1>
+        <Balance className="text-xl mb-1" address="0x610178dA211FEF7D417bC0e6FeD39F05609AD788" />
+      </div>
+    </div>
   );
 };
 
