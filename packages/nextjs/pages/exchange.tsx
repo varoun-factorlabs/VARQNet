@@ -10,10 +10,15 @@ import { multiplyTo1e18 } from "~~/utils/scaffold-eth/priceInWei";
 
 const Home: NextPage = () => {
   const [usdcAmount, setUsdcAmount] = useState("");
+  const [ttdcAmount, setTtdcAmount] = useState("");
+
+  const handleInputChange = (event: any) => {
+    setTtdcAmount(event.target.value);
+  };
+
   interface TransactionReceipt {
     blockHash: string;
   }
-
   const { writeAsync: deposit } = useScaffoldContractWrite({
     contractName: "Vault",
     functionName: "deposit_USDC",
@@ -45,16 +50,24 @@ const Home: NextPage = () => {
 
       <div className="card w-96 bg-base-100 shadow-xl mt-8">
         <div className="card-body">
-          <h2 className="card-title">Deposit</h2>
-          <EtherInput value={usdcAmount} onChange={amount => setUsdcAmount(amount)} />
+          <h2 className="card-title">TTDC</h2>
+
+          <div className={`flex border-2 border-base-300 bg-base-200 rounded-full text-accent`}>
+            <input
+              value={ttdcAmount}
+              onChange={handleInputChange}
+              className="input input-ghost focus:outline-none focus:bg-transparent focus:text-gray-400 h-[2.2rem] min-h-[2.2rem] px-4 border w-full font-medium placeholder:text-accent/50 text-gray-400"
+            />
+          </div>
+
           <div className="card-actions justify-end pt-4">
             <button
               className="btn btn-primary"
               onClick={() => {
-                deposit();
+                console.log(ttdcAmount);
               }}
             >
-              Deposit
+              Convert
             </button>
           </div>
         </div>
@@ -62,8 +75,8 @@ const Home: NextPage = () => {
 
       <div className="card w-96 bg-base-100 shadow-xl mt-8">
         <div className="card-body">
-          <h2 className="card-title">Withdraw</h2>
-          {/* <EtherInput value={ethAmount} onChange={amount => setEthAmount(amount)} /> */}
+          <h2 className="card-title">USDC</h2>
+          <EtherInput value={usdcAmount} onChange={amount => setUsdcAmount(amount)} />
           <div className="card-actions justify-end pt-4">
             <button className="btn btn-primary">Withdraw</button>
           </div>

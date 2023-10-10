@@ -24,6 +24,16 @@ const Home: NextPage = () => {
     },
   });
 
+  const { writeAsync: withdraw } = useScaffoldContractWrite({
+    contractName: "Vault",
+    functionName: "withdraw_USDC",
+    args: [BigInt(multiplyTo1e18(usdcAmount))],
+    // value: parseEther(ethAmount),
+    onBlockConfirmation: (txnReceipt: TransactionReceipt) => {
+      console.log("📦 Transaction blockHash", txnReceipt.blockHash);
+    },
+  });
+
   return (
     <div className="flex items-center flex-col flex-grow pt-10">
       <div className="tabs tabs-boxed flex justify-between w-screen px-6 pb-4 lg:justify-evenly lg:w-[520px]">
@@ -45,7 +55,7 @@ const Home: NextPage = () => {
 
       <div className="card w-96 bg-base-100 shadow-xl mt-8">
         <div className="card-body">
-          <h2 className="card-title">Deposit</h2>
+          <h2 className="card-title">Deposit USDC:</h2>
           <EtherInput value={usdcAmount} onChange={amount => setUsdcAmount(amount)} />
           <div className="card-actions justify-end pt-4">
             <button
@@ -62,10 +72,17 @@ const Home: NextPage = () => {
 
       <div className="card w-96 bg-base-100 shadow-xl mt-8">
         <div className="card-body">
-          <h2 className="card-title">Withdraw</h2>
-          {/* <EtherInput value={ethAmount} onChange={amount => setEthAmount(amount)} /> */}
+          <h2 className="card-title">Withdraw USDC:</h2>
+          <EtherInput value={usdcAmount} onChange={amount => setUsdcAmount(amount)} />
           <div className="card-actions justify-end pt-4">
-            <button className="btn btn-primary">Withdraw</button>
+            <button
+              className="btn btn-primary"
+              onClick={() => {
+                withdraw();
+              }}
+            >
+              Withdraw
+            </button>
           </div>
         </div>
       </div>
