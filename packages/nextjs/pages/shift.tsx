@@ -9,15 +9,34 @@ import { useScaffoldContractWrite } from "~~/hooks/scaffold-eth";
 import { multiplyTo1e18 } from "~~/utils/scaffold-eth/priceInWei";
 
 const Home: NextPage = () => {
-  const [usdcAmount, setUsdcAmount] = useState("");
+  const [vttdcAmount, setVttdcAmount] = useState("");
+  const [bttdcAmount, setBttdcAmount] = useState("");
+
+  const handleBttdcChange = (event: any) => {
+    setBttdcAmount(event.target.value);
+  };
+
+  const handleVttdcChange = (event: any) => {
+    setVttdcAmount(event.target.value);
+  };
+
   interface TransactionReceipt {
     blockHash: string;
   }
-
   const { writeAsync: deposit } = useScaffoldContractWrite({
     contractName: "Vault",
-    functionName: "deposit_USDC",
-    args: [BigInt(multiplyTo1e18(usdcAmount))],
+    functionName: "deposit_bTTDC",
+    args: [BigInt(multiplyTo1e18(bttdcAmount))],
+    // value: parseEther(ethAmount),
+    onBlockConfirmation: (txnReceipt: TransactionReceipt) => {
+      console.log("📦 Transaction blockHash", txnReceipt.blockHash);
+    },
+  });
+
+  const { writeAsync: withdraw_vttdc } = useScaffoldContractWrite({
+    contractName: "Vault",
+    functionName: "withdraw_bTTDC",
+    args: [BigInt(multiplyTo1e18(vttdcAmount))],
     // value: parseEther(ethAmount),
     onBlockConfirmation: (txnReceipt: TransactionReceipt) => {
       console.log("📦 Transaction blockHash", txnReceipt.blockHash);
@@ -45,8 +64,39 @@ const Home: NextPage = () => {
 
       <div className="card w-96 bg-base-100 shadow-xl mt-8">
         <div className="card-body">
-          <h2 className="card-title">Deposit</h2>
-          <EtherInput value={usdcAmount} onChange={amount => setUsdcAmount(amount)} />
+          <h2 className="card-title">vTTDC:</h2>
+
+          <div className={`flex border-2 border-base-300 bg-base-200 rounded-full text-accent`}>
+            <input
+              value={vttdcAmount}
+              onChange={handleVttdcChange}
+              className="input input-ghost focus:outline-none focus:bg-transparent focus:text-gray-400 h-[2.2rem] min-h-[2.2rem] px-4 border w-full font-medium placeholder:text-accent/50 text-gray-400"
+            />
+          </div>
+
+          <div className="card-actions justify-end pt-4">
+            <button
+              className="btn btn-primary"
+              onClick={() => {
+                withdraw_vttdc();
+              }}
+            >
+              Withdraw
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div className="card w-96 bg-base-100 shadow-xl mt-8">
+        <div className="card-body">
+          <h2 className="card-title">bTTDC:</h2>
+          <div className={`flex border-2 border-base-300 bg-base-200 rounded-full text-accent`}>
+            <input
+              value={bttdcAmount}
+              onChange={handleBttdcChange}
+              className="input input-ghost focus:outline-none focus:bg-transparent focus:text-gray-400 h-[2.2rem] min-h-[2.2rem] px-4 border w-full font-medium placeholder:text-accent/50 text-gray-400"
+            />
+          </div>
           <div className="card-actions justify-end pt-4">
             <button
               className="btn btn-primary"
@@ -56,16 +106,6 @@ const Home: NextPage = () => {
             >
               Deposit
             </button>
-          </div>
-        </div>
-      </div>
-
-      <div className="card w-96 bg-base-100 shadow-xl mt-8">
-        <div className="card-body">
-          <h2 className="card-title">Withdraw</h2>
-          {/* <EtherInput value={ethAmount} onChange={amount => setEthAmount(amount)} /> */}
-          <div className="card-actions justify-end pt-4">
-            <button className="btn btn-primary">Withdraw</button>
           </div>
         </div>
       </div>
