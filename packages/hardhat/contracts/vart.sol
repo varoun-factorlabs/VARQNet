@@ -71,24 +71,32 @@ contract VART is ERC20 {
 // Vault Contract
 contract Vault {
     IERC20 public usdc;
-    IERC20 public bTTDC; // Added bTTDC as an IERC20 because we're treating it as an external token
+    IERC20 public bTTDC;
     Vaulted_vTTDC public vTTDC;
     VART public vart;
     address public owner;
+    bool public isInitialized = false;
 
     uint256 public constant vTTDC_PER_USDC = 7;
     uint256 public constant VART_PER_USDC = 1;
 
-    constructor(address _usdc, address _bTTDC, address _vTTDC, address _vart) {
+    constructor(address _owner) {
+		owner = _owner;
+	}
+
+    function initialize(address _usdc, address _bTTDC, address _vTTDC, address _vart) external onlyOwner {
+        require(!isInitialized, "Vault is already initialized");
+        
         usdc = IERC20(_usdc);
-        bTTDC = IERC20(_bTTDC); // Initialize bTTDC
+        bTTDC = IERC20(_bTTDC);
         vTTDC = Vaulted_vTTDC(_vTTDC);
         vart = VART(_vart);
-        owner = msg.sender;
 
         // Set the Vault contract as the vault for vTTDC and VART
         vTTDC.setVault(address(this));
         vart.setVault(address(this));
+
+        isInitialized = true;
     }
 
     modifier onlyOwner() {
@@ -96,20 +104,23 @@ contract Vault {
         _;
     }
 
-    function depositUSDC(uint256 amount) external {
+    function deposit_USDC(uint256 amount) external {
+        require(isInitialized, "Vault is not initialized");
         require(usdc.transferFrom(msg.sender, address(this), amount), "Transfer failed");
 
         vTTDC.mint(msg.sender, amount * vTTDC_PER_USDC);
         vart.mint(msg.sender, amount * VART_PER_USDC);
     }
 
-    function depositbTTDC(uint256 amount) external {
+    function deposit_bTTDC(uint256 amount) external {
+        require(isInitialized, "Vault is not initialized");
         require(bTTDC.transferFrom(msg.sender, address(this), amount), "Transfer failed");
 
         vTTDC.mint(msg.sender, amount); // 1:1 minting for bTTDC to vTTDC
     }
 
-    function withdraw(uint256 amount) external {
+    function withdraw_USDC(uint256 amount) external {
+        require(isInitialized, "Vault is not initialized");
         require(vTTDC.balanceOf(msg.sender) >= amount, "Insufficient vTTDC");
         require(vart.balanceOf(msg.sender) >= amount * VART_PER_USDC, "Insufficient VART");
 
@@ -119,7 +130,8 @@ contract Vault {
         require(usdc.transfer(msg.sender, amount), "Transfer failed");
     }
 
-    function withdrawbTTDC(uint256 amount) external {
+    function withdraw_bTTDC(uint256 amount) external {
+        require(isInitialized, "Vault is not initialized");
         require(vTTDC.balanceOf(msg.sender) >= amount, "Insufficient vTTDC");
 
         vTTDC.burnFrom(msg.sender, amount);
