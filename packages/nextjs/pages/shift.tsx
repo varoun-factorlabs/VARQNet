@@ -41,7 +41,7 @@ const Home: NextPage = () => {
         </Link>
       </div>
 
-      <h1 className="text-2xl border-2 border-red-500">Vault Tab</h1>
+      <h1 className="text-2xl border-2 border-red-500">Shift Tab</h1>
 
       <div className="card w-96 bg-base-100 shadow-xl mt-8">
         <div className="card-body">
