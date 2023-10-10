@@ -1,11 +1,12 @@
 import { useState } from "react";
 import Link from "next/link";
+import { formatEther } from "ethers";
 import type { NextPage } from "next";
 import { parseEther } from "viem";
 // import { BugAntIcon, MagnifyingGlassIcon, SparklesIcon } from "@heroicons/react/24/outline";
 import { MetaHeader } from "~~/components/MetaHeader";
 import { Balance, EtherInput } from "~~/components/scaffold-eth";
-import { useScaffoldContractWrite } from "~~/hooks/scaffold-eth";
+import { useScaffoldContractRead, useScaffoldContractWrite } from "~~/hooks/scaffold-eth";
 import { multiplyTo1e18 } from "~~/utils/scaffold-eth/priceInWei";
 
 const Home: NextPage = () => {
@@ -41,6 +42,12 @@ const Home: NextPage = () => {
     onBlockConfirmation: (txnReceipt: TransactionReceipt) => {
       console.log("📦 Transaction blockHash", txnReceipt.blockHash);
     },
+  });
+
+  const { data: yourTokenBalance } = useScaffoldContractRead({
+    contractName: "Backed_bTTDC",
+    functionName: "balanceOf",
+    args: ["0xa2c94A173A2119C7aA887463399A754D0b5185Ec"],
   });
 
   return (
@@ -110,9 +117,11 @@ const Home: NextPage = () => {
         </div>
       </div>
 
-      <div className="text-2xl flex flex-row items-center p-4">
-        <h1>Your Balance:</h1>
-        <Balance className="text-xl mb-1" address="0x7A0e13Dd29851e3FE1DDd3Cd3D41Eb161E1DebAD" />
+      <div className="text-2xl flex flex-row justify-between items-center p-4">
+        <h1>BTTDC:</h1>
+        <div className="pl-4 pb-2 inline-flex items-center justify-center">
+          {parseFloat(formatEther(yourTokenBalance || "0")).toFixed(4)}
+        </div>
       </div>
 
       <div className="text-2xl flex flex-row items-center p-4">
