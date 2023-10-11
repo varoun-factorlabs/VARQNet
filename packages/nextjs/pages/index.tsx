@@ -2,17 +2,18 @@ import { useState } from "react";
 import Link from "next/link";
 import { formatEther } from "ethers";
 import type { NextPage } from "next";
+import { useAccount } from "wagmi";
 // import { BugAntIcon, MagnifyingGlassIcon, SparklesIcon } from "@heroicons/react/24/outline";
 import { MetaHeader } from "~~/components/MetaHeader";
 import { Balance, EtherInput } from "~~/components/scaffold-eth";
 import { useScaffoldContractRead, useScaffoldContractWrite } from "~~/hooks/scaffold-eth";
 import { multiplyTo1e18 } from "~~/utils/scaffold-eth/priceInWei";
-import { useAccount } from "wagmi";
 
 const Home: NextPage = () => {
   const vaultAddress = process.env.NEXT_PUBLIC_VAULT_ADDRESS;
   const [usdcAmount, setUsdcAmount] = useState("");
-  const {address} = useAccount();
+  const { address } = useAccount();
+  const [isApproved, setIsApproved] = useState(false);
 
   interface TransactionReceipt {
     blockHash: string;
@@ -48,6 +49,13 @@ const Home: NextPage = () => {
     contractName: "Mock_USDC",
     functionName: "balanceOf",
     args: [vaultAddress],
+  });
+
+  // // Approve Tokens
+  const { writeAsync: approveTokens } = useScaffoldContractWrite({
+    contractName: "Mock_USDC",
+    functionName: "approve",
+    args: [vaultAddress, multiplyTo1e18("100000000")],
   });
 
   return (
@@ -117,6 +125,18 @@ const Home: NextPage = () => {
         <div className="pl-4 pb-2 inline-flex items-center justify-center">
           {parseFloat(formatEther(vaultUSDCBalance || "0")).toFixed(0)} <h1 className="pl-2 pt-2">tokens</h1>
         </div>
+      </div>
+
+      <div className="flex gap-4">
+        <button
+          className={`btn  ${isApproved ? "btn-disabled" : "btn-primary"}`}
+          onClick={async () => {
+            await approveTokens();
+            setIsApproved(true);
+          }}
+        >
+          Approve Tokens
+        </button>
       </div>
     </div>
   );

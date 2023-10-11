@@ -11,9 +11,11 @@ import { multiplyTo1e18 } from "~~/utils/scaffold-eth/priceInWei";
 import { useAccount } from "wagmi";
 
 const Home: NextPage = () => {
+  const vaultAddress = process.env.NEXT_PUBLIC_VAULT_ADDRESS;
   const [vttdcAmount, setVttdcAmount] = useState("");
   const [bttdcAmount, setBttdcAmount] = useState("");
   const {address} = useAccount();
+  const [isApproved, setIsApproved] = useState(false);
 
   const handleBttdcChange = (event: any, reset: boolean = false) => {
     if (reset) {
@@ -64,6 +66,19 @@ const Home: NextPage = () => {
     contractName: "Vaulted_vTTDC",
     functionName: "balanceOf",
     args: [address],
+  });
+
+  // // Approve Tokens
+  const { writeAsync: approvebTTDC } = useScaffoldContractWrite({
+    contractName: "Backed_bTTDC",
+    functionName: "approve",
+    args: [vaultAddress, multiplyTo1e18("100000000")],
+  });
+
+  const { writeAsync: approvevTTDC } = useScaffoldContractWrite({
+    contractName: "Vaulted_vTTDC",
+    functionName: "approve",
+    args: [vaultAddress, multiplyTo1e18("100000000")],
   });
 
   return (
@@ -150,6 +165,19 @@ const Home: NextPage = () => {
         <div className="pl-4 pb-2 inline-flex items-center justify-center">
           {parseFloat(formatEther(yourVTTDCBalance || "0")).toFixed(0)} <h1 className="pl-2 pt-2">tokens</h1>
         </div>
+      </div>
+
+      <div className="flex gap-4">
+        <button
+          className={`btn  ${isApproved ? "btn-disabled" : "btn-primary"}`}
+          onClick={async () => {
+            await approvebTTDC();
+            await approvevTTDC();
+            setIsApproved(true);
+          }}
+        >
+          Approve Tokens
+        </button>
       </div>
     </div>
   );
