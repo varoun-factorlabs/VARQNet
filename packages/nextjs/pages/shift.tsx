@@ -8,10 +8,12 @@ import { MetaHeader } from "~~/components/MetaHeader";
 import { Balance, EtherInput } from "~~/components/scaffold-eth";
 import { useScaffoldContractRead, useScaffoldContractWrite } from "~~/hooks/scaffold-eth";
 import { multiplyTo1e18 } from "~~/utils/scaffold-eth/priceInWei";
+import { useAccount } from "wagmi";
 
 const Home: NextPage = () => {
   const [vttdcAmount, setVttdcAmount] = useState("");
   const [bttdcAmount, setBttdcAmount] = useState("");
+  const {address} = useAccount();
 
   const handleBttdcChange = (event: any, reset: boolean = false) => {
     if (reset) {
@@ -55,13 +57,13 @@ const Home: NextPage = () => {
   const { data: yourBTTDCBalance } = useScaffoldContractRead({
     contractName: "Backed_bTTDC",
     functionName: "balanceOf",
-    args: ["0xa2c94A173A2119C7aA887463399A754D0b5185Ec"],
+    args: [address],
   });
 
   const { data: yourVTTDCBalance } = useScaffoldContractRead({
     contractName: "Vaulted_vTTDC",
     functionName: "balanceOf",
-    args: ["0xa2c94A173A2119C7aA887463399A754D0b5185Ec"],
+    args: [address],
   });
 
   return (

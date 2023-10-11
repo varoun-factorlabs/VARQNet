@@ -24,7 +24,7 @@ const deployYourContract: DeployFunction = async function (hre: HardhatRuntimeEn
   await deploy("Mock_USDC", {
     from: deployer,
     // Contract constructor arguments
-    args: ["0xa2c94A173A2119C7aA887463399A754D0b5185Ec"], //[deployer],
+    args: ["0x7A0e13Dd29851e3FE1DDd3Cd3D41Eb161E1DebAD"], //[deployer],
     log: true,
     // autoMine: can be passed to the deploy function to make the deployment process faster on local networks by
     // automatically mining the contract deployment transaction. There is no effect on live networks.
@@ -34,7 +34,7 @@ const deployYourContract: DeployFunction = async function (hre: HardhatRuntimeEn
   await deploy("Backed_bTTDC", {
     from: deployer,
     // Contract constructor arguments
-    args: ["0xa2c94A173A2119C7aA887463399A754D0b5185Ec"], //[deployer],
+    args: ["0x7A0e13Dd29851e3FE1DDd3Cd3D41Eb161E1DebAD"], //[deployer],
     log: true,
     // autoMine: can be passed to the deploy function to make the deployment process faster on local networks by
     // automatically mining the contract deployment transaction. There is no effect on live networks.
@@ -64,7 +64,7 @@ const deployYourContract: DeployFunction = async function (hre: HardhatRuntimeEn
   await deploy("Vault", {
     from: deployer,
     // Contract constructor arguments
-    args: ["0xa2c94A173A2119C7aA887463399A754D0b5185Ec"], //[deployer],
+    args: ["0x7A0e13Dd29851e3FE1DDd3Cd3D41Eb161E1DebAD"], //[deployer],
     log: true,
     // autoMine: can be passed to the deploy function to make the deployment process faster on local networks by
     // automatically mining the contract deployment transaction. There is no effect on live networks.
