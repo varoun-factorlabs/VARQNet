@@ -18,6 +18,100 @@ contract Backed_bTTDC is ERC20 {
     }
 }
 
+// USDC Faucet for testing
+
+contract ERC20_USDC_Faucet {
+    IERC20 public token;
+    address public owner;
+    uint256 public amountToDispense = 1000 * 10**18; // Assuming 18 decimals in your ERC20 token
+    bool public initialized = false;
+
+    modifier onlyOwner() {
+        require(msg.sender == owner, "Not authorized");
+        _;
+    }
+
+    modifier notInitialized() {
+        require(!initialized, "Already initialized");
+        _;
+    }
+
+    function initialize(address _tokenAddress) external notInitialized {
+        token = IERC20(_tokenAddress);
+        owner = msg.sender;
+        initialized = true;
+    }
+
+    function depositTokens(uint256 amount) external onlyOwner {
+        require(token.transferFrom(msg.sender, address(this), amount), "Transfer failed");
+    }
+
+    function claimTokens() external {
+        uint256 balance = token.balanceOf(address(this));
+        require(balance >= amountToDispense, "Not enough tokens in the faucet");
+
+        require(token.transfer(msg.sender, amountToDispense), "Transfer failed");
+    }
+
+    function updateAmountToDispense(uint256 newAmount) external onlyOwner {
+        amountToDispense = newAmount;
+    }
+
+    function withdrawLeftoverTokens(uint256 amount) external onlyOwner {
+        uint256 balance = token.balanceOf(address(this));
+        require(balance >= amount, "Not enough tokens");
+
+        require(token.transfer(msg.sender, amount), "Transfer failed");
+    }
+}
+
+contract ERC20_bTTDC_Faucet {
+    IERC20 public token;
+    address public owner;
+    uint256 public amountToDispense = 1000 * 10**18; // Assuming 18 decimals in your ERC20 token
+    bool public initialized = false;
+
+    modifier onlyOwner() {
+        require(msg.sender == owner, "Not authorized");
+        _;
+    }
+
+    modifier notInitialized() {
+        require(!initialized, "Already initialized");
+        _;
+    }
+
+    function initialize(address _tokenAddress) external notInitialized {
+        token = IERC20(_tokenAddress);
+        owner = msg.sender;
+        initialized = true;
+    }
+
+    function depositTokens(uint256 amount) external onlyOwner {
+        require(token.transferFrom(msg.sender, address(this), amount), "Transfer failed");
+    }
+
+    function claimTokens() external {
+        uint256 balance = token.balanceOf(address(this));
+        require(balance >= amountToDispense, "Not enough tokens in the faucet");
+
+        require(token.transfer(msg.sender, amountToDispense), "Transfer failed");
+    }
+
+    function updateAmountToDispense(uint256 newAmount) external onlyOwner {
+        amountToDispense = newAmount;
+    }
+
+    function withdrawLeftoverTokens(uint256 amount) external onlyOwner {
+        uint256 balance = token.balanceOf(address(this));
+        require(balance >= amount, "Not enough tokens");
+
+        require(token.transfer(msg.sender, amount), "Transfer failed");
+    }
+}
+
+
+
 // vTTDC Contract
 contract Vaulted_vTTDC is ERC20 {
     address public vault;
