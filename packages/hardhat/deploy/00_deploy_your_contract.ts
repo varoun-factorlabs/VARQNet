@@ -20,11 +20,33 @@ const deployYourContract: DeployFunction = async function (hre: HardhatRuntimeEn
   */
   const { deployer } = await hre.getNamedAccounts();
   const { deploy } = hre.deployments;
+  const wallet: string = "0x82AE2D14e2fdeA02f84A03a35Bcb869d199bb01A";
 
   await deploy("Mock_USDC", {
     from: deployer,
     // Contract constructor arguments
-    args: ["0x7A0e13Dd29851e3FE1DDd3Cd3D41Eb161E1DebAD"], //[deployer],
+
+    args: [wallet], //[deployer],
+    log: true,
+    // autoMine: can be passed to the deploy function to make the deployment process faster on local networks by
+    // automatically mining the contract deployment transaction. There is no effect on live networks.
+    autoMine: true,
+  });
+
+  await deploy("ERC20_USDC_Faucet", {
+    from: deployer,
+    // Contract constructor arguments
+    args: [], //[deployer],
+    log: true,
+    // autoMine: can be passed to the deploy function to make the deployment process faster on local networks by
+    // automatically mining the contract deployment transaction. There is no effect on live networks.
+    autoMine: true,
+  });
+
+  await deploy("ERC20_bTTDC_Faucet", {
+    from: deployer,
+    // Contract constructor arguments
+    args: [], //[deployer],
     log: true,
     // autoMine: can be passed to the deploy function to make the deployment process faster on local networks by
     // automatically mining the contract deployment transaction. There is no effect on live networks.
@@ -34,7 +56,7 @@ const deployYourContract: DeployFunction = async function (hre: HardhatRuntimeEn
   await deploy("Backed_bTTDC", {
     from: deployer,
     // Contract constructor arguments
-    args: ["0x7A0e13Dd29851e3FE1DDd3Cd3D41Eb161E1DebAD"], //[deployer],
+    args: [wallet], //[deployer],
     log: true,
     // autoMine: can be passed to the deploy function to make the deployment process faster on local networks by
     // automatically mining the contract deployment transaction. There is no effect on live networks.
@@ -64,7 +86,7 @@ const deployYourContract: DeployFunction = async function (hre: HardhatRuntimeEn
   await deploy("Vault", {
     from: deployer,
     // Contract constructor arguments
-    args: ["0x7A0e13Dd29851e3FE1DDd3Cd3D41Eb161E1DebAD"], //[deployer],
+    args: [wallet], //[deployer],
     log: true,
     // autoMine: can be passed to the deploy function to make the deployment process faster on local networks by
     // automatically mining the contract deployment transaction. There is no effect on live networks.
