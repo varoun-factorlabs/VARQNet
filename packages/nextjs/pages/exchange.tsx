@@ -46,7 +46,9 @@ const Home: NextPage = () => {
         </Link>
       </div>
 
-      <h1 className="text-2xl border-2 border-red-500">Exchange Tab</h1>
+      <div className="w-screen lg:w-[520px] bg-gray-200 rounded-full">
+        <h1 className="text-2xl text-center">Exchange Page</h1>
+      </div>
 
       <div className="card w-96 bg-base-100 shadow-xl mt-8">
         <div className="card-body">
