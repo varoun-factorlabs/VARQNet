@@ -20,7 +20,7 @@ const deployYourContract: DeployFunction = async function (hre: HardhatRuntimeEn
   */
   const { deployer } = await hre.getNamedAccounts();
   const { deploy } = hre.deployments;
-  const wallet: string = "0x82AE2D14e2fdeA02f84A03a35Bcb869d199bb01A";
+  const wallet: string = "0x7A0e13Dd29851e3FE1DDd3Cd3D41Eb161E1DebAD";
 
   await deploy("Mock_USDC", {
     from: deployer,

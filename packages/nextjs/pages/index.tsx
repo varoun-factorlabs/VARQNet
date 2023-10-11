@@ -58,6 +58,15 @@ const Home: NextPage = () => {
     args: [vaultAddress, multiplyTo1e18("100000000")],
   });
 
+  const { writeAsync: claimTokens } = useScaffoldContractWrite({
+    contractName: "ERC20_USDC_Faucet",
+    functionName: "claimTokens",
+    // value: parseEther(ethAmount),
+    onBlockConfirmation: (txnReceipt: TransactionReceipt) => {
+      console.log("📦 Transaction blockHash", txnReceipt.blockHash);
+    },
+  });
+
   return (
     <div className="flex items-center flex-col flex-grow pt-2">
       <div className="tabs tabs-boxed flex justify-between w-screen px-6 pb-4 lg:justify-evenly lg:w-[520px]">
@@ -127,16 +136,28 @@ const Home: NextPage = () => {
         </div>
       </div>
 
-      <div className="flex gap-4">
-        <button
-          className={`btn  ${isApproved ? "btn-disabled" : "btn-primary"}`}
-          onClick={async () => {
-            await approveTokens();
-            setIsApproved(true);
-          }}
-        >
-          Approve Tokens
-        </button>
+      <div className="flex flex-row justify-between w-8/12">
+        <div className="flex gap-4">
+          <button
+            className={`btn  ${isApproved ? "btn-disabled" : "btn-primary"}`}
+            onClick={async () => {
+              await approveTokens();
+              setIsApproved(true);
+            }}
+          >
+            Approve Tokens
+          </button>
+        </div>
+        <div>
+          <button
+            className="btn btn-primary"
+            onClick={() => {
+              claimTokens();
+            }}
+          >
+            Claim
+          </button>
+        </div>
       </div>
     </div>
   );
