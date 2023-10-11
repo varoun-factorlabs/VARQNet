@@ -5,7 +5,7 @@ const contracts = {
       name: "localhost",
       contracts: {
         Backed_bTTDC: {
-          address: "0x7a2088a1bFc9d81c55368AE168C2C02570cB814F",
+          address: "0xCf7Ed3AccA5a467e9e704C703E8D87F634fB0Fc9",
           abi: [
             {
               inputs: [
@@ -291,7 +291,7 @@ const contracts = {
           ],
         },
         ContractRegistry: {
-          address: "0xE6E340D132b5f46d1e472DebcD681B2aBc16e57E",
+          address: "0xa513E6E4b8f2a923D98304ec87F64353C4D5C853",
           abi: [
             {
               anonymous: false,
@@ -540,7 +540,7 @@ const contracts = {
           ],
         },
         ERC20_bTTDC_Faucet: {
-          address: "0x4A679253410272dd5232B3Ff7cF5dbB88f295319",
+          address: "0x9fE46736679d2D9a65F0992F2272dE9f3c7fa6e0",
           abi: [
             {
               inputs: [],
@@ -656,7 +656,7 @@ const contracts = {
           ],
         },
         ERC20_USDC_Faucet: {
-          address: "0xa85233C63b9Ee964Add6F2cffe00Fd84eb32338f",
+          address: "0xe7f1725E7734CE288F8367e1Bb143E90bb3F0512",
           abi: [
             {
               inputs: [],
@@ -772,7 +772,7 @@ const contracts = {
           ],
         },
         Mock_USDC: {
-          address: "0x322813Fd9A801c5507c9de605d63CEA4f2CE6c44",
+          address: "0x5FbDB2315678afecb367f032d93F642f64180aa3",
           abi: [
             {
               inputs: [
@@ -1058,7 +1058,7 @@ const contracts = {
           ],
         },
         VART: {
-          address: "0xc5a5C42992dECbae36851359345FE25997F5C42d",
+          address: "0x5FC8d32690cc91D4c39d9d3abcBD16989F875707",
           abi: [
             {
               inputs: [],
@@ -1400,7 +1400,7 @@ const contracts = {
           ],
         },
         Vault: {
-          address: "0x67d269191c92Caf3cD7723F116c85e6E9bf55933",
+          address: "0x0165878A594ca255338adfa4d48449f69242Eb8F",
           abi: [
             {
               inputs: [
@@ -1600,7 +1600,7 @@ const contracts = {
           ],
         },
         Vaulted_vTTDC: {
-          address: "0x09635F643e140090A9A8Dcd712eD6285858ceBef",
+          address: "0xDc64a140Aa3E981100a9becA4E685f962f0cF6C9",
           abi: [
             {
               inputs: [],
