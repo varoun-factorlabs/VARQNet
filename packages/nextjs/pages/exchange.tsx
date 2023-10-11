@@ -30,7 +30,7 @@ const Home: NextPage = () => {
   });
 
   return (
-    <div className="flex items-center flex-col flex-grow pt-10">
+    <div className="flex items-center flex-col flex-grow pt-2">
       <div className="tabs tabs-boxed flex justify-between w-screen px-6 pb-4 lg:justify-evenly lg:w-[520px]">
         <Link href="/exchange" className="tab text-xl">
           Exchange
@@ -46,7 +46,9 @@ const Home: NextPage = () => {
         </Link>
       </div>
 
-      <h1 className="text-2xl border-2 border-red-500">Exchange Tab</h1>
+      <div className="w-screen lg:w-[520px] bg-blue-400 rounded">
+        <h1 className="text-2xl text-center">Exchange Page</h1>
+      </div>
 
       <div className="card w-96 bg-base-100 shadow-xl mt-8">
         <div className="card-body">
@@ -73,6 +75,25 @@ const Home: NextPage = () => {
         </div>
       </div>
 
+      <div className="mt-6">
+        <button className="btn btn-accent">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+            strokeWidth={1.5}
+            stroke="currentColor"
+            className="w-6 h-6"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              d="M3 7.5L7.5 3m0 0L12 7.5M7.5 3v13.5m13.5 0L16.5 21m0 0L12 16.5m4.5 4.5V7.5"
+            />
+          </svg>
+        </button>
+      </div>
+
       <div className="card w-96 bg-base-100 shadow-xl mt-8">
         <div className="card-body">
           <h2 className="card-title">USDC</h2>
@@ -83,12 +104,12 @@ const Home: NextPage = () => {
         </div>
       </div>
 
-      <div className="text-2xl flex flex-row items-center p-4">
+      <div className="text-2xl flex flex-row items-center pt-4">
         <h1>Your Balance:</h1>
         <Balance className="text-xl mb-1" address="0x7A0e13Dd29851e3FE1DDd3Cd3D41Eb161E1DebAD" />
       </div>
 
-      <div className="text-2xl flex flex-row items-center p-4">
+      <div className="text-2xl flex flex-row items-center">
         <h1>Vault Balance:</h1>
         <Balance className="text-xl mb-1" address="0x610178dA211FEF7D417bC0e6FeD39F05609AD788" />
       </div>

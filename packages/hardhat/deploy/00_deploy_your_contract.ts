@@ -25,6 +25,7 @@ const deployYourContract: DeployFunction = async function (hre: HardhatRuntimeEn
   await deploy("Mock_USDC", {
     from: deployer,
     // Contract constructor arguments
+
     args: [wallet], //[deployer],
     log: true,
     // autoMine: can be passed to the deploy function to make the deployment process faster on local networks by

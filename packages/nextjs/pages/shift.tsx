@@ -8,17 +8,27 @@ import { MetaHeader } from "~~/components/MetaHeader";
 import { Balance, EtherInput } from "~~/components/scaffold-eth";
 import { useScaffoldContractRead, useScaffoldContractWrite } from "~~/hooks/scaffold-eth";
 import { multiplyTo1e18 } from "~~/utils/scaffold-eth/priceInWei";
+import { useAccount } from "wagmi";
 
 const Home: NextPage = () => {
   const [vttdcAmount, setVttdcAmount] = useState("");
   const [bttdcAmount, setBttdcAmount] = useState("");
+  const {address} = useAccount();
 
-  const handleBttdcChange = (event: any) => {
-    setBttdcAmount(event.target.value);
+  const handleBttdcChange = (event: any, reset: boolean = false) => {
+    if (reset) {
+      setBttdcAmount("");
+    } else {
+      setBttdcAmount(event.target.value);
+    }
   };
 
-  const handleVttdcChange = (event: any) => {
-    setVttdcAmount(event.target.value);
+  const handleVttdcChange = (event: any, reset: boolean = false) => {
+    if (reset) {
+      setVttdcAmount("");
+    } else {
+      setVttdcAmount(event.target.value);
+    }
   };
 
   interface TransactionReceipt {
@@ -44,14 +54,20 @@ const Home: NextPage = () => {
     },
   });
 
-  const { data: yourTokenBalance } = useScaffoldContractRead({
+  const { data: yourBTTDCBalance } = useScaffoldContractRead({
     contractName: "Backed_bTTDC",
     functionName: "balanceOf",
-    args: ["0xa2c94A173A2119C7aA887463399A754D0b5185Ec"],
+    args: [address],
+  });
+
+  const { data: yourVTTDCBalance } = useScaffoldContractRead({
+    contractName: "Vaulted_vTTDC",
+    functionName: "balanceOf",
+    args: [address],
   });
 
   return (
-    <div className="flex items-center flex-col flex-grow pt-10">
+    <div className="flex items-center flex-col flex-grow pt-2">
       <div className="tabs tabs-boxed flex justify-between w-screen px-6 pb-4 lg:justify-evenly lg:w-[520px]">
         <Link href="/exchange" className="tab text-xl">
           Exchange
@@ -67,31 +83,8 @@ const Home: NextPage = () => {
         </Link>
       </div>
 
-      <h1 className="text-2xl border-2 border-red-500">Shift Tab</h1>
-
-      <div className="card w-96 bg-base-100 shadow-xl mt-8">
-        <div className="card-body">
-          <h2 className="card-title">vTTDC:</h2>
-
-          <div className={`flex border-2 border-base-300 bg-base-200 rounded-full text-accent`}>
-            <input
-              value={vttdcAmount}
-              onChange={handleVttdcChange}
-              className="input input-ghost focus:outline-none focus:bg-transparent focus:text-gray-400 h-[2.2rem] min-h-[2.2rem] px-4 border w-full font-medium placeholder:text-accent/50 text-gray-400"
-            />
-          </div>
-
-          <div className="card-actions justify-end pt-4">
-            <button
-              className="btn btn-primary"
-              onClick={() => {
-                withdraw_vttdc();
-              }}
-            >
-              Withdraw
-            </button>
-          </div>
-        </div>
+      <div className="w-screen lg:w-[520px] bg-blue-400 rounded">
+        <h1 className="text-2xl text-center">Shift Page</h1>
       </div>
 
       <div className="card w-96 bg-base-100 shadow-xl mt-8">
@@ -109,6 +102,7 @@ const Home: NextPage = () => {
               className="btn btn-primary"
               onClick={() => {
                 deposit();
+                handleBttdcChange(null, true);
               }}
             >
               Deposit
@@ -117,16 +111,45 @@ const Home: NextPage = () => {
         </div>
       </div>
 
-      <div className="text-2xl flex flex-row justify-between items-center p-4">
-        <h1>BTTDC:</h1>
-        <div className="pl-4 pb-2 inline-flex items-center justify-center">
-          {parseFloat(formatEther(yourTokenBalance || "0")).toFixed(4)}
+      <div className="card w-96 bg-base-100 shadow-xl mt-8">
+        <div className="card-body">
+          <h2 className="card-title">vTTDC:</h2>
+
+          <div className={`flex border-2 border-base-300 bg-base-200 rounded-full text-accent`}>
+            <input
+              id="vttdc"
+              value={vttdcAmount}
+              onChange={handleVttdcChange}
+              className="input input-ghost focus:outline-none focus:bg-transparent focus:text-gray-400 h-[2.2rem] min-h-[2.2rem] px-4 border w-full font-medium placeholder:text-accent/50 text-gray-400"
+            />
+          </div>
+
+          <div className="card-actions justify-end pt-4">
+            <button
+              className="btn btn-primary"
+              onClick={() => {
+                withdraw_vttdc();
+                handleVttdcChange(null, true);
+              }}
+            >
+              Withdraw
+            </button>
+          </div>
         </div>
       </div>
 
-      <div className="text-2xl flex flex-row items-center p-4">
-        <h1>Vault Balance:</h1>
-        <Balance className="text-xl mb-1" address="0x610178dA211FEF7D417bC0e6FeD39F05609AD788" />
+      <div className="text-2xl flex flex-row justify-between items-center pt-4">
+        <h1>BTTDC:</h1>
+        <div className="pl-4 pb-2 inline-flex items-center justify-center">
+          {parseFloat(formatEther(yourBTTDCBalance || "0")).toFixed(0)} <h1 className="pl-2 pt-2">tokens</h1>
+        </div>
+      </div>
+
+      <div className="text-2xl flex flex-row items-center">
+        <h1>VTTDC:</h1>
+        <div className="pl-4 pb-2 inline-flex items-center justify-center">
+          {parseFloat(formatEther(yourVTTDCBalance || "0")).toFixed(0)} <h1 className="pl-2 pt-2">tokens</h1>
+        </div>
       </div>
     </div>
   );
