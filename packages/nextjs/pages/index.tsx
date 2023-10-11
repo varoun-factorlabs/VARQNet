@@ -7,9 +7,11 @@ import { MetaHeader } from "~~/components/MetaHeader";
 import { Balance, EtherInput } from "~~/components/scaffold-eth";
 import { useScaffoldContractRead, useScaffoldContractWrite } from "~~/hooks/scaffold-eth";
 import { multiplyTo1e18 } from "~~/utils/scaffold-eth/priceInWei";
+import { useAccount } from "wagmi";
 
 const Home: NextPage = () => {
   const [usdcAmount, setUsdcAmount] = useState("");
+  const {address} = useAccount();
 
   interface TransactionReceipt {
     blockHash: string;
@@ -38,13 +40,13 @@ const Home: NextPage = () => {
   const { data: yourUSDCBalance } = useScaffoldContractRead({
     contractName: "Mock_USDC",
     functionName: "balanceOf",
-    args: ["0xa2c94A173A2119C7aA887463399A754D0b5185Ec"],
+    args: [address],
   });
 
   const { data: vaultUSDCBalance } = useScaffoldContractRead({
     contractName: "Mock_USDC",
     functionName: "balanceOf",
-    args: ["0xDc64a140Aa3E981100a9becA4E685f962f0cF6C9"],
+    args: ["0x8A791620dd6260079BF849Dc5567aDC3F2FdC318"],
   });
 
   return (
