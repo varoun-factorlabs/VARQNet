@@ -65,7 +65,7 @@ const Home: NextPage = () => {
   });
 
   return (
-    <div className="flex items-center flex-col flex-grow pt-10">
+    <div className="flex items-center flex-col flex-grow pt-2">
       <div className="tabs tabs-boxed flex justify-between w-screen px-6 pb-4 lg:justify-evenly lg:w-[520px]">
         <Link href="/exchange" className="tab text-xl">
           Exchange
@@ -81,7 +81,7 @@ const Home: NextPage = () => {
         </Link>
       </div>
 
-      <div className="w-screen lg:w-[520px] bg-gray-200 rounded-full">
+      <div className="w-screen lg:w-[520px] bg-blue-400 rounded">
         <h1 className="text-2xl text-center">Shift Page</h1>
       </div>
 
@@ -136,14 +136,14 @@ const Home: NextPage = () => {
         </div>
       </div>
 
-      <div className="text-2xl flex flex-row justify-between items-center p-4">
+      <div className="text-2xl flex flex-row justify-between items-center pt-4">
         <h1>BTTDC:</h1>
         <div className="pl-4 pb-2 inline-flex items-center justify-center">
           {parseFloat(formatEther(yourBTTDCBalance || "0")).toFixed(0)} <h1 className="pl-2 pt-2">tokens</h1>
         </div>
       </div>
 
-      <div className="text-2xl flex flex-row items-center p-4">
+      <div className="text-2xl flex flex-row items-center">
         <h1>VTTDC:</h1>
         <div className="pl-4 pb-2 inline-flex items-center justify-center">
           {parseFloat(formatEther(yourVTTDCBalance || "0")).toFixed(0)} <h1 className="pl-2 pt-2">tokens</h1>
