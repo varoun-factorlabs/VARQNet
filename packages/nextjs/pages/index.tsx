@@ -10,6 +10,7 @@ import { multiplyTo1e18 } from "~~/utils/scaffold-eth/priceInWei";
 import { useAccount } from "wagmi";
 
 const Home: NextPage = () => {
+  const vaultAddress = process.env.NEXT_PUBLIC_VAULT_ADDRESS;
   const [usdcAmount, setUsdcAmount] = useState("");
   const {address} = useAccount();
 
@@ -46,7 +47,7 @@ const Home: NextPage = () => {
   const { data: vaultUSDCBalance } = useScaffoldContractRead({
     contractName: "Mock_USDC",
     functionName: "balanceOf",
-    args: ["0x8A791620dd6260079BF849Dc5567aDC3F2FdC318"],
+    args: [vaultAddress],
   });
 
   return (
