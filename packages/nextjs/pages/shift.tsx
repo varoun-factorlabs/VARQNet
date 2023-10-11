@@ -176,7 +176,7 @@ const Home: NextPage = () => {
         </div>
       </div>
 
-      <div className="flex flex-row justify-between w-8/12">
+      <div className="flex flex-row justify-between w-8/12 lg:w-1/4">
         <div className="flex gap-4">
           <button
             className={`btn  ${isApproved ? "btn-disabled" : "btn-primary"}`}

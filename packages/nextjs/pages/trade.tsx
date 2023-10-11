@@ -1,16 +1,53 @@
 import { useState } from "react";
 import Link from "next/link";
+import { formatEther } from "ethers";
 import type { NextPage } from "next";
 import { parseEther } from "viem";
+import { useAccount } from "wagmi";
 // import { BugAntIcon, MagnifyingGlassIcon, SparklesIcon } from "@heroicons/react/24/outline";
 import { MetaHeader } from "~~/components/MetaHeader";
 import { Balance, EtherInput } from "~~/components/scaffold-eth";
-import { useScaffoldContractWrite } from "~~/hooks/scaffold-eth";
+import { useScaffoldContractRead, useScaffoldContractWrite } from "~~/hooks/scaffold-eth";
 import { multiplyTo1e18 } from "~~/utils/scaffold-eth/priceInWei";
 
 const Home: NextPage = () => {
   const [usdcAmount, setUsdcAmount] = useState("");
-  const [ethAmount, setEthAmount] = useState("");
+  const { address } = useAccount();
+  // const [ethAmount, setEthAmount] = useState("");
+  const [ttdcAmount, setTtdcAmount] = useState("");
+  const [vartAmount, setVartAmount] = useState("");
+  const [selectedToken, setSelectedToken] = useState("TTDC");
+
+  const handleInputChange = (event: any) => {
+    if (selectedToken === "USDC") {
+      setUsdcAmount(event.target.value);
+    } else if (selectedToken === "VART") {
+      setVartAmount(event.target.value);
+    }
+  };
+
+  const handleTokenSelect = (token: string) => {
+    setSelectedToken(token);
+  };
+
+  const placeholderText =
+    selectedToken === "USDC"
+      ? "Enter USDC amount"
+      : selectedToken === "VART"
+      ? "Enter VART amount"
+      : "Enter TTDC amount";
+
+  const { data: vaultVARTBalance } = useScaffoldContractRead({
+    contractName: "VART",
+    functionName: "balanceOf",
+    args: [address],
+  });
+
+  const { data: yourVTTDCBalance } = useScaffoldContractRead({
+    contractName: "Vaulted_vTTDC",
+    functionName: "balanceOf",
+    args: [address],
+  });
 
   return (
     <div className="flex items-center flex-col flex-grow pt-2">
@@ -33,9 +70,9 @@ const Home: NextPage = () => {
         <h1 className="text-2xl text-center">Trade Page</h1>
       </div>
 
-      <div className="items-center flex flex-row w-10/12 justify-between">
-        <h1 className="text-2xl mt-6 text-left text-blue-400">Swap | Buy</h1>
-        <div className="mt-4">
+      <div className="items-center flex flex-row w-10/12 justify-between lg:w-1/3">
+        <h1 className="text-2xl mt-6 text-left text-blue-400 lg:ml-4">Swap | Buy</h1>
+        <div className="mt-4 lg:mr-6">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             fill="none"
@@ -57,10 +94,19 @@ const Home: NextPage = () => {
       <div className="card w-96 bg-base-100 shadow-xl">
         <div className="card-body">
           <h2 className="card-title">You pay</h2>
-          <EtherInput value={usdcAmount} onChange={amount => setUsdcAmount(amount)} />
+
+          {/* <EtherInput value={usdcAmount} onChange={amount => setUsdcAmount(amount)} /> */}
+          {/* <div className={`flex border-2 border-base-300 bg-base-200 rounded-full text-accent`}>
+            <input
+              value={ttdcAmount}
+              onChange={handleInputChange}
+              className="input input-ghost focus:outline-none focus:bg-transparent focus:text-gray-400 h-[2.2rem] min-h-[2.2rem] px-4 border w-full font-medium placeholder:text-accent/50 text-gray-400"
+            />
+          </div>
+
           <div className="dropdown dropdown-top dropdown-end text-right">
             <label tabIndex={0} className="btn m-1">
-              vTTDC
+              TTDC
             </label>
             <ul tabIndex={0} className="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-52">
               <li>
@@ -70,6 +116,32 @@ const Home: NextPage = () => {
                 <a>VART</a>
               </li>
             </ul>
+          </div> */}
+
+          <div className="flex border-2 border-base-300 bg-base-200 rounded-full text-accent">
+            <input
+              value={selectedToken === "USDC" ? usdcAmount : vartAmount}
+              onChange={handleInputChange}
+              placeholder={placeholderText}
+              className="input input-ghost focus:outline-none focus:bg-transparent focus:text-gray-400 h-[2.2rem] min-h-[2.2rem] px-4 border w-full font-medium placeholder:text-accent/50 text-gray-400"
+            />
+          </div>
+
+          <div className="dropdown dropdown-top dropdown-end text-right">
+            <label tabIndex={0} className="btn m-1">
+              {selectedToken}
+            </label>
+            <ul tabIndex={0} className="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-52">
+              <li>
+                <a onClick={() => handleTokenSelect("USDC")}>USDC</a>
+              </li>
+              <li>
+                <a onClick={() => handleTokenSelect("VART")}>VART</a>
+              </li>
+              <li>
+                <a onClick={() => handleTokenSelect("TTDC")}>TTDC</a>
+              </li>
+            </ul>
           </div>
         </div>
       </div>
@@ -77,7 +149,15 @@ const Home: NextPage = () => {
       <div className="card w-96 bg-base-100 shadow-xl mt-8">
         <div className="card-body">
           <h2 className="card-title">You receive</h2>
-          <EtherInput value={ethAmount} onChange={amount => setEthAmount(amount)} />
+          {/* <EtherInput value={ethAmount} onChange={amount => setEthAmount(amount)} /> */}
+
+          <div className="flex border-2 border-base-300 bg-base-200 rounded-full text-accent">
+            <input
+              onChange={handleInputChange}
+              className="input input-ghost focus:outline-none focus:bg-transparent focus:text-gray-400 h-[2.2rem] min-h-[2.2rem] px-4 border w-full font-medium placeholder:text-accent/50 text-gray-400"
+            />
+          </div>
+
           <div className="dropdown dropdown-top dropdown-end text-right">
             <label tabIndex={0} className="btn m-1">
               VART
@@ -91,6 +171,20 @@ const Home: NextPage = () => {
               </li>
             </ul>
           </div>
+        </div>
+      </div>
+
+      <div className="text-2xl flex flex-row items-center">
+        <h1>VART:</h1>
+        <div className="pl-4 pb-2 inline-flex items-center justify-center">
+          {parseFloat(formatEther(vaultVARTBalance || "0")).toFixed(0)} <h1 className="pl-2 pt-2">tokens</h1>
+        </div>
+      </div>
+
+      <div className="text-2xl flex flex-row items-center">
+        <h1>VTTDC:</h1>
+        <div className="pl-4 pb-2 inline-flex items-center justify-center">
+          {parseFloat(formatEther(yourVTTDCBalance || "0")).toFixed(0)} <h1 className="pl-2 pt-2">tokens</h1>
         </div>
       </div>
     </div>
