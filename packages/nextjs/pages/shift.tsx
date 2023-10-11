@@ -3,18 +3,18 @@ import Link from "next/link";
 import { formatEther } from "ethers";
 import type { NextPage } from "next";
 import { parseEther } from "viem";
+import { useAccount } from "wagmi";
 // import { BugAntIcon, MagnifyingGlassIcon, SparklesIcon } from "@heroicons/react/24/outline";
 import { MetaHeader } from "~~/components/MetaHeader";
 import { Balance, EtherInput } from "~~/components/scaffold-eth";
 import { useScaffoldContractRead, useScaffoldContractWrite } from "~~/hooks/scaffold-eth";
 import { multiplyTo1e18 } from "~~/utils/scaffold-eth/priceInWei";
-import { useAccount } from "wagmi";
 
 const Home: NextPage = () => {
   const vaultAddress = process.env.NEXT_PUBLIC_VAULT_ADDRESS;
   const [vttdcAmount, setVttdcAmount] = useState("");
   const [bttdcAmount, setBttdcAmount] = useState("");
-  const {address} = useAccount();
+  const { address } = useAccount();
   const [isApproved, setIsApproved] = useState(false);
 
   const handleBttdcChange = (event: any, reset: boolean = false) => {
@@ -79,6 +79,15 @@ const Home: NextPage = () => {
     contractName: "Vaulted_vTTDC",
     functionName: "approve",
     args: [vaultAddress, multiplyTo1e18("100000000")],
+  });
+
+  const { writeAsync: claimTokens } = useScaffoldContractWrite({
+    contractName: "ERC20_bTTDC_Faucet",
+    functionName: "claimTokens",
+    // value: parseEther(ethAmount),
+    onBlockConfirmation: (txnReceipt: TransactionReceipt) => {
+      console.log("📦 Transaction blockHash", txnReceipt.blockHash);
+    },
   });
 
   return (
@@ -167,17 +176,29 @@ const Home: NextPage = () => {
         </div>
       </div>
 
-      <div className="flex gap-4">
-        <button
-          className={`btn  ${isApproved ? "btn-disabled" : "btn-primary"}`}
-          onClick={async () => {
-            await approvebTTDC();
-            await approvevTTDC();
-            setIsApproved(true);
-          }}
-        >
-          Approve Tokens
-        </button>
+      <div className="flex flex-row justify-between w-8/12">
+        <div className="flex gap-4">
+          <button
+            className={`btn  ${isApproved ? "btn-disabled" : "btn-primary"}`}
+            onClick={async () => {
+              await approvebTTDC();
+              await approvevTTDC();
+              setIsApproved(true);
+            }}
+          >
+            Approve Tokens
+          </button>
+        </div>
+        <div>
+          <button
+            className="btn btn-primary"
+            onClick={() => {
+              claimTokens();
+            }}
+          >
+            Claim
+          </button>
+        </div>
       </div>
     </div>
   );
