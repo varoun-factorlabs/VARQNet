@@ -5,7 +5,7 @@ const contracts = {
       name: "localhost",
       contracts: {
         Backed_bTTDC: {
-          address: "0x0165878A594ca255338adfa4d48449f69242Eb8F",
+          address: "0xB7f8BC63BbcaD18155201308C8f3540b07f84F5e",
           abi: [
             {
               inputs: [
@@ -291,7 +291,7 @@ const contracts = {
           ],
         },
         Mock_USDC: {
-          address: "0x5FC8d32690cc91D4c39d9d3abcBD16989F875707",
+          address: "0x610178dA211FEF7D417bC0e6FeD39F05609AD788",
           abi: [
             {
               inputs: [
@@ -577,7 +577,7 @@ const contracts = {
           ],
         },
         VART: {
-          address: "0xCf7Ed3AccA5a467e9e704C703E8D87F634fB0Fc9",
+          address: "0x0DCd1Bf9A1b36cE34237eEaFef220932846BCD82",
           abi: [
             {
               inputs: [],
@@ -919,7 +919,7 @@ const contracts = {
           ],
         },
         Vault: {
-          address: "0x8A791620dd6260079BF849Dc5567aDC3F2FdC318",
+          address: "0x9A676e781A523b5d0C0e43731313A708CB607508",
           abi: [
             {
               inputs: [
@@ -1119,7 +1119,7 @@ const contracts = {
           ],
         },
         Vaulted_vTTDC: {
-          address: "0x9fE46736679d2D9a65F0992F2272dE9f3c7fa6e0",
+          address: "0xA51c1fc2f0D1a1b8494Ed1FE312d7C3a78Ed91C0",
           abi: [
             {
               inputs: [],
