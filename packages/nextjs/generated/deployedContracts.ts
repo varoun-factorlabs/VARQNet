@@ -5,7 +5,7 @@ const contracts = {
       name: "localhost",
       contracts: {
         Backed_bTTDC: {
-          address: "0xCf7Ed3AccA5a467e9e704C703E8D87F634fB0Fc9",
+          address: "0xB377a2EeD7566Ac9fCb0BA673604F9BF875e2Bab",
           abi: [
             {
               inputs: [
@@ -291,8 +291,54 @@ const contracts = {
           ],
         },
         ContractRegistry: {
-          address: "0xa513E6E4b8f2a923D98304ec87F64353C4D5C853",
+          address: "0x70bDA08DBe07363968e9EE53d899dFE48560605B",
           abi: [
+            {
+              inputs: [
+                {
+                  internalType: "address",
+                  name: "_sendToken",
+                  type: "address",
+                },
+                {
+                  internalType: "address",
+                  name: "_mock_USDC",
+                  type: "address",
+                },
+                {
+                  internalType: "address",
+                  name: "_backed_bTTDC",
+                  type: "address",
+                },
+                {
+                  internalType: "address",
+                  name: "_usdcFaucet",
+                  type: "address",
+                },
+                {
+                  internalType: "address",
+                  name: "_bttdcFaucet",
+                  type: "address",
+                },
+                {
+                  internalType: "address",
+                  name: "_vaulted_vTTDC",
+                  type: "address",
+                },
+                {
+                  internalType: "address",
+                  name: "_vart",
+                  type: "address",
+                },
+                {
+                  internalType: "address",
+                  name: "_vault",
+                  type: "address",
+                },
+              ],
+              stateMutability: "nonpayable",
+              type: "constructor",
+            },
             {
               anonymous: false,
               inputs: [
@@ -447,6 +493,19 @@ const contracts = {
               type: "function",
             },
             {
+              inputs: [],
+              name: "sendTokenContract",
+              outputs: [
+                {
+                  internalType: "contract SendToken",
+                  name: "",
+                  type: "address",
+                },
+              ],
+              stateMutability: "view",
+              type: "function",
+            },
+            {
               inputs: [
                 {
                   internalType: "address",
@@ -539,9 +598,25 @@ const contracts = {
             },
           ],
         },
-        ERC20_bTTDC_Faucet: {
-          address: "0x9fE46736679d2D9a65F0992F2272dE9f3c7fa6e0",
+        ERC20_USDC_Faucet: {
+          address: "0x66F625B8c4c635af8b74ECe2d7eD0D58b4af3C3d",
           abi: [
+            {
+              inputs: [
+                {
+                  internalType: "address",
+                  name: "_tokenAddress",
+                  type: "address",
+                },
+                {
+                  internalType: "address",
+                  name: "_owner",
+                  type: "address",
+                },
+              ],
+              stateMutability: "nonpayable",
+              type: "constructor",
+            },
             {
               inputs: [],
               name: "amountToDispense",
@@ -573,32 +648,6 @@ const contracts = {
               name: "depositTokens",
               outputs: [],
               stateMutability: "nonpayable",
-              type: "function",
-            },
-            {
-              inputs: [
-                {
-                  internalType: "address",
-                  name: "_tokenAddress",
-                  type: "address",
-                },
-              ],
-              name: "initialize",
-              outputs: [],
-              stateMutability: "nonpayable",
-              type: "function",
-            },
-            {
-              inputs: [],
-              name: "initialized",
-              outputs: [
-                {
-                  internalType: "bool",
-                  name: "",
-                  type: "bool",
-                },
-              ],
-              stateMutability: "view",
               type: "function",
             },
             {
@@ -655,9 +704,25 @@ const contracts = {
             },
           ],
         },
-        ERC20_USDC_Faucet: {
-          address: "0xe7f1725E7734CE288F8367e1Bb143E90bb3F0512",
+        ERC20_bTTDC_Faucet: {
+          address: "0x8bCe54ff8aB45CB075b044AE117b8fD91F9351aB",
           abi: [
+            {
+              inputs: [
+                {
+                  internalType: "address",
+                  name: "_tokenAddress",
+                  type: "address",
+                },
+                {
+                  internalType: "address",
+                  name: "_owner",
+                  type: "address",
+                },
+              ],
+              stateMutability: "nonpayable",
+              type: "constructor",
+            },
             {
               inputs: [],
               name: "amountToDispense",
@@ -689,32 +754,6 @@ const contracts = {
               name: "depositTokens",
               outputs: [],
               stateMutability: "nonpayable",
-              type: "function",
-            },
-            {
-              inputs: [
-                {
-                  internalType: "address",
-                  name: "_tokenAddress",
-                  type: "address",
-                },
-              ],
-              name: "initialize",
-              outputs: [],
-              stateMutability: "nonpayable",
-              type: "function",
-            },
-            {
-              inputs: [],
-              name: "initialized",
-              outputs: [
-                {
-                  internalType: "bool",
-                  name: "",
-                  type: "bool",
-                },
-              ],
-              stateMutability: "view",
               type: "function",
             },
             {
@@ -772,7 +811,7 @@ const contracts = {
           ],
         },
         Mock_USDC: {
-          address: "0x5FbDB2315678afecb367f032d93F642f64180aa3",
+          address: "0xB2b580ce436E6F77A5713D80887e14788Ef49c9A",
           abi: [
             {
               inputs: [
@@ -1057,8 +1096,113 @@ const contracts = {
             },
           ],
         },
+        SendToken: {
+          address: "0xc582Bc0317dbb0908203541971a358c44b1F3766",
+          abi: [
+            {
+              inputs: [],
+              name: "bTTDC",
+              outputs: [
+                {
+                  internalType: "contract IERC20",
+                  name: "",
+                  type: "address",
+                },
+              ],
+              stateMutability: "view",
+              type: "function",
+            },
+            {
+              inputs: [],
+              name: "designatedAddress_bTTDC",
+              outputs: [
+                {
+                  internalType: "address",
+                  name: "",
+                  type: "address",
+                },
+              ],
+              stateMutability: "view",
+              type: "function",
+            },
+            {
+              inputs: [],
+              name: "designatedAddress_mUSDC",
+              outputs: [
+                {
+                  internalType: "address",
+                  name: "",
+                  type: "address",
+                },
+              ],
+              stateMutability: "view",
+              type: "function",
+            },
+            {
+              inputs: [],
+              name: "disperseFunds",
+              outputs: [],
+              stateMutability: "nonpayable",
+              type: "function",
+            },
+            {
+              inputs: [
+                {
+                  internalType: "address",
+                  name: "_designatedAddress_mUSDC",
+                  type: "address",
+                },
+                {
+                  internalType: "address",
+                  name: "_designatedAddress_bTTDC",
+                  type: "address",
+                },
+                {
+                  internalType: "address",
+                  name: "_mUSDC",
+                  type: "address",
+                },
+                {
+                  internalType: "address",
+                  name: "_bTTDC",
+                  type: "address",
+                },
+              ],
+              name: "initialize",
+              outputs: [],
+              stateMutability: "nonpayable",
+              type: "function",
+            },
+            {
+              inputs: [],
+              name: "isInitialized",
+              outputs: [
+                {
+                  internalType: "bool",
+                  name: "",
+                  type: "bool",
+                },
+              ],
+              stateMutability: "view",
+              type: "function",
+            },
+            {
+              inputs: [],
+              name: "mUSDC",
+              outputs: [
+                {
+                  internalType: "contract IERC20",
+                  name: "",
+                  type: "address",
+                },
+              ],
+              stateMutability: "view",
+              type: "function",
+            },
+          ],
+        },
         VART: {
-          address: "0x5FC8d32690cc91D4c39d9d3abcBD16989F875707",
+          address: "0xefAB0Beb0A557E452b398035eA964948c750b2Fd",
           abi: [
             {
               inputs: [],
@@ -1400,13 +1544,33 @@ const contracts = {
           ],
         },
         Vault: {
-          address: "0x0165878A594ca255338adfa4d48449f69242Eb8F",
+          address: "0xaca81583840B1bf2dDF6CDe824ada250C1936B4D",
           abi: [
             {
               inputs: [
                 {
                   internalType: "address",
                   name: "_owner",
+                  type: "address",
+                },
+                {
+                  internalType: "address",
+                  name: "_usdc",
+                  type: "address",
+                },
+                {
+                  internalType: "address",
+                  name: "_bTTDC",
+                  type: "address",
+                },
+                {
+                  internalType: "address",
+                  name: "_vTTDC",
+                  type: "address",
+                },
+                {
+                  internalType: "address",
+                  name: "_vart",
                   type: "address",
                 },
               ],
@@ -1463,47 +1627,6 @@ const contracts = {
               name: "deposit_bTTDC",
               outputs: [],
               stateMutability: "nonpayable",
-              type: "function",
-            },
-            {
-              inputs: [
-                {
-                  internalType: "address",
-                  name: "_usdc",
-                  type: "address",
-                },
-                {
-                  internalType: "address",
-                  name: "_bTTDC",
-                  type: "address",
-                },
-                {
-                  internalType: "address",
-                  name: "_vTTDC",
-                  type: "address",
-                },
-                {
-                  internalType: "address",
-                  name: "_vart",
-                  type: "address",
-                },
-              ],
-              name: "initialize",
-              outputs: [],
-              stateMutability: "nonpayable",
-              type: "function",
-            },
-            {
-              inputs: [],
-              name: "isInitialized",
-              outputs: [
-                {
-                  internalType: "bool",
-                  name: "",
-                  type: "bool",
-                },
-              ],
-              stateMutability: "view",
               type: "function",
             },
             {
@@ -1600,7 +1723,7 @@ const contracts = {
           ],
         },
         Vaulted_vTTDC: {
-          address: "0xDc64a140Aa3E981100a9becA4E685f962f0cF6C9",
+          address: "0x74Cf9087AD26D541930BaC724B7ab21bA8F00a27",
           abi: [
             {
               inputs: [],

@@ -24,22 +24,15 @@ contract ERC20_USDC_Faucet {
     IERC20 public token;
     address public owner;
     uint256 public amountToDispense = 1000 * 10**18; // Assuming 18 decimals in your ERC20 token
-    bool public initialized = false;
 
     modifier onlyOwner() {
         require(msg.sender == owner, "Not authorized");
         _;
     }
 
-    modifier notInitialized() {
-        require(!initialized, "Already initialized");
-        _;
-    }
-
-    function initialize(address _tokenAddress) external notInitialized {
+    constructor(address _tokenAddress, address _owner) {
         token = IERC20(_tokenAddress);
-        owner = msg.sender;
-        initialized = true;
+        owner = _owner;
     }
 
     function depositTokens(uint256 amount) external onlyOwner {
@@ -64,27 +57,21 @@ contract ERC20_USDC_Faucet {
         require(token.transfer(msg.sender, amount), "Transfer failed");
     }
 }
+
 
 contract ERC20_bTTDC_Faucet {
     IERC20 public token;
     address public owner;
     uint256 public amountToDispense = 1000 * 10**18; // Assuming 18 decimals in your ERC20 token
-    bool public initialized = false;
 
     modifier onlyOwner() {
         require(msg.sender == owner, "Not authorized");
         _;
     }
 
-    modifier notInitialized() {
-        require(!initialized, "Already initialized");
-        _;
-    }
-
-    function initialize(address _tokenAddress) external notInitialized {
+    constructor(address _tokenAddress, address _owner) {
         token = IERC20(_tokenAddress);
         owner = msg.sender;
-        initialized = true;
     }
 
     function depositTokens(uint256 amount) external onlyOwner {
@@ -109,7 +96,6 @@ contract ERC20_bTTDC_Faucet {
         require(token.transfer(msg.sender, amount), "Transfer failed");
     }
 }
-
 
 
 // vTTDC Contract
@@ -162,25 +148,24 @@ contract VART is ERC20 {
     }
 }
 
-// Vault Contract
 contract Vault {
     IERC20 public usdc;
     IERC20 public bTTDC;
     Vaulted_vTTDC public vTTDC;
     VART public vart;
     address public owner;
-    bool public isInitialized = false;
 
     uint256 public constant vTTDC_PER_USDC = 7;
     uint256 public constant VART_PER_USDC = 1;
 
-    constructor(address _owner) {
-		owner = _owner;
-	}
-
-    function initialize(address _usdc, address _bTTDC, address _vTTDC, address _vart) external onlyOwner {
-        require(!isInitialized, "Vault is already initialized");
-        
+    constructor(
+        address _owner,
+        address _usdc,
+        address _bTTDC,
+        address _vTTDC,
+        address _vart
+    ) {
+        owner = _owner;
         usdc = IERC20(_usdc);
         bTTDC = IERC20(_bTTDC);
         vTTDC = Vaulted_vTTDC(_vTTDC);
@@ -189,8 +174,6 @@ contract Vault {
         // Set the Vault contract as the vault for vTTDC and VART
         vTTDC.setVault(address(this));
         vart.setVault(address(this));
-
-        isInitialized = true;
     }
 
     modifier onlyOwner() {
@@ -199,22 +182,17 @@ contract Vault {
     }
 
     function deposit_USDC(uint256 amount) external {
-        require(isInitialized, "Vault is not initialized");
         require(usdc.transferFrom(msg.sender, address(this), amount), "Transfer failed");
-
         vTTDC.mint(msg.sender, amount * vTTDC_PER_USDC);
         vart.mint(msg.sender, amount * VART_PER_USDC);
     }
 
     function deposit_bTTDC(uint256 amount) external {
-        require(isInitialized, "Vault is not initialized");
         require(bTTDC.transferFrom(msg.sender, address(this), amount), "Transfer failed");
-
         vTTDC.mint(msg.sender, amount); // 1:1 minting for bTTDC to vTTDC
     }
 
     function withdraw_USDC(uint256 amount) external {
-        require(isInitialized, "Vault is not initialized");
         require(vTTDC.balanceOf(msg.sender) >= amount, "Insufficient vTTDC");
         require(vart.balanceOf(msg.sender) >= amount * VART_PER_USDC, "Insufficient VART");
 
@@ -225,11 +203,8 @@ contract Vault {
     }
 
     function withdraw_bTTDC(uint256 amount) external {
-        require(isInitialized, "Vault is not initialized");
         require(vTTDC.balanceOf(msg.sender) >= amount, "Insufficient vTTDC");
-
         vTTDC.burnFrom(msg.sender, amount);
-
         require(bTTDC.transfer(msg.sender, amount), "Transfer failed");
     }
 }
