@@ -1,5 +1,7 @@
 import { HardhatRuntimeEnvironment } from "hardhat/types";
 import { DeployFunction } from "hardhat-deploy/types";
+import dotenv from 'dotenv';
+dotenv.config();
 
 /**
  * Deploys a contract named "YourContract" using the deployer account and
@@ -20,20 +22,9 @@ const deployYourContract: DeployFunction = async function (hre: HardhatRuntimeEn
   */
   const { deployer } = await hre.getNamedAccounts();
   const { deploy } = hre.deployments;
-  const wallet: string = "0x8873dEbBf2b05dC9c77202BDBF40354d3d5057a6";
+  const wallet = process.env.HARDHAT_USER_WALLET_ADDRESS as string;
 
-  await deploy("Mock_USDC", {
-    from: deployer,
-    // Contract constructor arguments
-
-    args: [wallet], //[deployer],
-    log: true,
-    // autoMine: can be passed to the deploy function to make the deployment process faster on local networks by
-    // automatically mining the contract deployment transaction. There is no effect on live networks.
-    autoMine: true,
-  });
-
-  await deploy("ERC20_USDC_Faucet", {
+  const SendToken = await deploy("SendToken", {
     from: deployer,
     // Contract constructor arguments
     args: [], //[deployer],
@@ -43,7 +34,48 @@ const deployYourContract: DeployFunction = async function (hre: HardhatRuntimeEn
     autoMine: true,
   });
 
-  await deploy("ERC20_bTTDC_Faucet", {
+  const Mock_USDC = await deploy("Mock_USDC", {
+    from: deployer,
+    // Contract constructor arguments
+
+    args: [SendToken.address], //[deployer],
+    log: true,
+    // autoMine: can be passed to the deploy function to make the deployment process faster on local networks by
+    // automatically mining the contract deployment transaction. There is no effect on live networks.
+    autoMine: true,
+  });
+
+  const Backed_bTTDC = await deploy("Backed_bTTDC", {
+    from: deployer,
+    // Contract constructor arguments
+    args: [SendToken.address], //[deployer],
+    log: true,
+    // autoMine: can be passed to the deploy function to make the deployment process faster on local networks by
+    // automatically mining the contract deployment transaction. There is no effect on live networks.
+    autoMine: true,
+  });
+
+  const ERC20_USDC_Faucet = await deploy("ERC20_USDC_Faucet", {
+    from: deployer,
+    // Contract constructor arguments
+    args: [Mock_USDC.address, wallet], //[deployer],
+    log: true,
+    // autoMine: can be passed to the deploy function to make the deployment process faster on local networks by
+    // automatically mining the contract deployment transaction. There is no effect on live networks.
+    autoMine: true,
+  });
+
+  const ERC20_bTTDC_Faucet = await deploy("ERC20_bTTDC_Faucet", {
+    from: deployer,
+    // Contract constructor arguments
+    args: [Backed_bTTDC.address, wallet], //[deployer],
+    log: true,
+    // autoMine: can be passed to the deploy function to make the deployment process faster on local networks by
+    // automatically mining the contract deployment transaction. There is no effect on live networks.
+    autoMine: true,
+  });
+
+  const Vaulted_vTTDC = await deploy("Vaulted_vTTDC", {
     from: deployer,
     // Contract constructor arguments
     args: [], //[deployer],
@@ -53,17 +85,7 @@ const deployYourContract: DeployFunction = async function (hre: HardhatRuntimeEn
     autoMine: true,
   });
 
-  await deploy("Backed_bTTDC", {
-    from: deployer,
-    // Contract constructor arguments
-    args: [wallet], //[deployer],
-    log: true,
-    // autoMine: can be passed to the deploy function to make the deployment process faster on local networks by
-    // automatically mining the contract deployment transaction. There is no effect on live networks.
-    autoMine: true,
-  });
-
-  await deploy("Vaulted_vTTDC", {
+  const VART = await deploy("VART", {
     from: deployer,
     // Contract constructor arguments
     args: [], //[deployer],
@@ -73,30 +95,34 @@ const deployYourContract: DeployFunction = async function (hre: HardhatRuntimeEn
     autoMine: true,
   });
 
-  await deploy("VART", {
+  // address _owner,
+  // address _usdc,
+  // address _bTTDC,
+  // address _vTTDC,
+  // address _vart
+
+  const Vault = await deploy("Vault", {
     from: deployer,
     // Contract constructor arguments
-    args: [], //[deployer],
+    args: [wallet, Mock_USDC.address, Backed_bTTDC.address, Vaulted_vTTDC.address, VART.address], //[deployer],
     log: true,
     // autoMine: can be passed to the deploy function to make the deployment process faster on local networks by
     // automatically mining the contract deployment transaction. There is no effect on live networks.
     autoMine: true,
   });
 
-  await deploy("Vault", {
-    from: deployer,
-    // Contract constructor arguments
-    args: [wallet], //[deployer],
-    log: true,
-    // autoMine: can be passed to the deploy function to make the deployment process faster on local networks by
-    // automatically mining the contract deployment transaction. There is no effect on live networks.
-    autoMine: true,
-  });
+  // address _mock_USDC,
+  // address _backed_bTTDC,
+  // address _usdcFaucet,
+  // address _bttdcFaucet,
+  // address _vaulted_vTTDC,
+  // address _vart,
+  // address _vault
 
-  await deploy("ContractRegistry", {
+  const ContractRegistry = await deploy("ContractRegistry", {
     from: deployer,
     // Contract constructor arguments
-    args: [], //[deployer],
+    args: [SendToken.address, Mock_USDC.address, Backed_bTTDC.address, ERC20_USDC_Faucet.address, ERC20_bTTDC_Faucet.address, Vaulted_vTTDC.address, VART.address, Vault.address], //[deployer],
     log: true,
     // autoMine: can be passed to the deploy function to make the deployment process faster on local networks by
     // automatically mining the contract deployment transaction. There is no effect on live networks.
