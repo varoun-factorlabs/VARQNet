@@ -92,7 +92,7 @@ const Home: NextPage = () => {
 
   return (
     <div className="flex items-center flex-col flex-grow pt-2">
-      <div className="tabs tabs-boxed flex justify-between w-screen px-6 pb-4 lg:justify-evenly lg:w-[520px]">
+      {/* <div className="tabs tabs-boxed flex justify-between w-screen px-6 pb-4 lg:justify-evenly lg:w-[520px]">
         <Link href="/exchange" className="tab text-xl">
           Exchange
         </Link>
@@ -105,10 +105,10 @@ const Home: NextPage = () => {
         <Link href="/shift" className="tab text-xl">
           Shift
         </Link>
-      </div>
+      </div> */}
 
-      <div className="w-screen lg:w-[520px] bg-blue-400 rounded">
-        <h1 className="text-2xl text-center">Shift Page</h1>
+      <div className="w-screen lg:w-[520px] mt-4">
+        <h1 className="text-2xl text-center">SHIFT</h1>
       </div>
 
       <div className="card w-96 bg-base-100 shadow-xl mt-8">
@@ -176,7 +176,7 @@ const Home: NextPage = () => {
         </div>
       </div>
 
-      <div className="flex flex-row justify-between w-8/12 lg:w-1/4">
+      <div className="flex flex-row justify-between px-2 w-screen lg:px-0 lg:w-1/5">
         <div className="flex gap-4">
           <button
             className={`btn  ${isApproved ? "btn-disabled" : "btn-primary"}`}
