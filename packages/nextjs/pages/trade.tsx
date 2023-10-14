@@ -51,7 +51,7 @@ const Home: NextPage = () => {
 
   return (
     <div className="flex items-center flex-col flex-grow pt-2">
-      <div className="tabs tabs-boxed flex justify-between w-screen px-6 pb-4 lg:justify-evenly lg:w-[520px]">
+      {/* <div className="tabs tabs-boxed flex justify-between w-screen px-6 pb-4 lg:justify-evenly lg:w-[520px]">
         <Link href="/exchange" className="tab text-xl">
           Exchange
         </Link>
@@ -64,15 +64,15 @@ const Home: NextPage = () => {
         <Link href="/shift" className="tab text-xl">
           Shift
         </Link>
+      </div> */}
+
+      <div className="w-screen lg:w-[520px] mt-4">
+        <h1 className="text-2xl text-center">TRADE</h1>
       </div>
 
-      <div className="w-screen lg:w-[520px] bg-blue-400 rounded">
-        <h1 className="text-2xl text-center">Trade Page</h1>
-      </div>
-
-      <div className="items-center flex flex-row w-10/12 justify-between lg:w-1/3">
+      <div className="items-center flex flex-row w-10/12 justify-between lg:w-1/5">
         <h1 className="text-2xl mt-6 text-left text-blue-400 lg:ml-4">Swap | Buy</h1>
-        <div className="mt-4 lg:mr-6">
+        <div className="mt-4 lg:mr-2">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             fill="none"

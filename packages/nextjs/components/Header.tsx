@@ -37,7 +37,16 @@ export const Header = () => {
   const navLinks = (
     <>
       <li>
-        <NavLink href="/">Home</NavLink>
+        <NavLink href="/exchange">Exchange</NavLink>
+      </li>
+      <li>
+        <NavLink href="/">Vault</NavLink>
+      </li>
+      <li>
+        <NavLink href="/trade">Trade</NavLink>
+      </li>
+      <li>
+        <NavLink href="/shift">Shift</NavLink>
       </li>
       <li>
         <NavLink href="/debug">
