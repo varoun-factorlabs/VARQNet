@@ -1,0 +1,46 @@
+{
+    "name": "VARQNet",
+    "version": {
+      "major": 0,
+      "minor": 1,
+      "patch": 0
+    },
+    "keywords": ["tokens", "trusted"],
+    "logoURI": "https://gnosis.mypinata.cloud/ipfs/Qme9B6jRpGtZsRFcPjHvA5T4ugFuL4c3SzWfxyMPa59AMo",
+    "timestamp": "2022-05-26T10:45:01.151Z",
+    "tokens": [
+        {
+            "name": "VARQ Trinidad & Tobago Dollars",
+            "chainId": 5,
+            "symbol": "vTTDC",
+            "decimals": 18,
+            "address": "0x02abbdbaaa7b1bb64b5c878f7ac17f8dda169532",
+            "logoURI": "https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/ethereum/assets/0x6810e776880C02933D47DB1b9fc05908e5386b96/logo.png"
+        },
+        {
+            "name": "Backed Trinidad & Tobago Dollars",
+            "chainId": 5,
+            "symbol": "bTTDC",
+            "decimals": 18,
+            "address": "0x02abbdbaaa7b1bb64b5c878f7ac17f8dda169532",
+            "logoURI": "https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/ethereum/assets/0x6810e776880C02933D47DB1b9fc05908e5386b96/logo.png"
+          },
+          {
+            "name": "Vault Access Reserve Quota",
+            "chainId": 5,
+            "symbol": "VARQ",
+            "decimals": 18,
+            "address": "0x02abbdbaaa7b1bb64b5c878f7ac17f8dda169532",
+            "logoURI": "https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/ethereum/assets/0x6810e776880C02933D47DB1b9fc05908e5386b96/logo.png"
+          },
+          {
+            "name": "USD Coin",
+            "chainId": 5,
+            "symbol": "USDC",
+            "decimals": 18,
+            "address": "0x02abbdbaaa7b1bb64b5c878f7ac17f8dda169532",
+            "logoURI": "https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/ethereum/assets/0x6810e776880C02933D47DB1b9fc05908e5386b96/logo.png"
+          }
+    ]
+  }
+  
