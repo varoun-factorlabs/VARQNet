@@ -118,6 +118,10 @@ const config: HardhatUserConfig = {
       url: "https://sepolia-rpc.scroll.io",
       accounts: [deployerPrivateKey],
     },
+    conduit: {
+      url: "https://l2-uniswap-v4-hook-sandbox-6tl5qq8i4d.t.conduit.xyz",
+      accounts: [deployerPrivateKey],
+    },
   },
   verify: {
     etherscan: {
