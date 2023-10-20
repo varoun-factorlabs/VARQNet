@@ -28,23 +28,23 @@ const AdvancedOrderWidget = () => {
 
 const TimeWeightedWidget = () => {
   return (
-    <Grid numItems={4} className="gap-2 m-3">
-      <Col numColSpan={4} className="p-5 bg-primary rounded-lg">
+    <Grid numItems={4} className="gap-2 mt-3">
+      <Col numColSpan={4} className="p-5 bg-secondary rounded-lg">
         Price Protection
       </Col>
-      <Col numColSpan={4} className="p-5 bg-primary rounded-lg">
+      <Col numColSpan={4} className="p-5 bg-secondary rounded-lg">
         # of Parts
       </Col>
-      <Col numColSpan={2} className="p-5 bg-primary rounded-lg">
+      <Col numColSpan={2} className="p-5 bg-secondary rounded-lg">
         Duration
       </Col>
-      <Col numColSpan={2} className="p-5 bg-primary rounded-lg">
+      <Col numColSpan={2} className="p-5 bg-secondary rounded-lg">
         Part Duration
       </Col>
-      <Col numColSpan={2} className="p-5 bg-primary rounded-lg">
+      <Col numColSpan={2} className="p-5 bg-secondary rounded-lg">
         Sell Per Part
       </Col>
-      <Col numColSpan={2} className="p-5 bg-primary rounded-lg">
+      <Col numColSpan={2} className="p-5 bg-secondary rounded-lg">
         Buy Per Part
       </Col>
     </Grid>

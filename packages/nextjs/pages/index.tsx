@@ -1,164 +1,76 @@
 import { useState } from "react";
 import Link from "next/link";
-import { formatEther } from "ethers";
+import { useRouter } from "next/router";
+import { Card, Tab, TabGroup, TabList, TabPanel, TabPanels } from "@tremor/react";
+import classNames from "classnames";
 import type { NextPage } from "next";
 import { useAccount } from "wagmi";
+import { UserGroupIcon, UserIcon } from "@heroicons/react/24/outline";
 // import { BugAntIcon, MagnifyingGlassIcon, SparklesIcon } from "@heroicons/react/24/outline";
 import { MetaHeader } from "~~/components/MetaHeader";
 import { Balance, EtherInput } from "~~/components/scaffold-eth";
 import { useScaffoldContractRead, useScaffoldContractWrite } from "~~/hooks/scaffold-eth";
 import { multiplyTo1e18 } from "~~/utils/scaffold-eth/priceInWei";
 
-const Home: NextPage = () => {
-  const vaultAddress = process.env.NEXT_PUBLIC_VAULT_ADDRESS;
-  const [usdcAmount, setUsdcAmount] = useState("");
-  const { address } = useAccount();
-  const [isApproved, setIsApproved] = useState(false);
+type CustomTabProps = {
+  label: string;
+  isActive: boolean;
+  onClick: () => void;
+  icon: React.ReactNode;
+};
 
-  interface TransactionReceipt {
-    blockHash: string;
-  }
-
-  const { writeAsync: deposit } = useScaffoldContractWrite({
-    contractName: "Vault",
-    functionName: "deposit_USDC",
-    args: [BigInt(multiplyTo1e18(usdcAmount))],
-    // value: parseEther(ethAmount),
-    onBlockConfirmation: (txnReceipt: TransactionReceipt) => {
-      console.log("📦 Transaction blockHash", txnReceipt.blockHash);
-    },
-  });
-
-  const { writeAsync: withdraw } = useScaffoldContractWrite({
-    contractName: "Vault",
-    functionName: "withdraw_USDC",
-    args: [BigInt(multiplyTo1e18(usdcAmount))],
-    // value: parseEther(ethAmount),
-    onBlockConfirmation: (txnReceipt: TransactionReceipt) => {
-      console.log("📦 Transaction blockHash", txnReceipt.blockHash);
-    },
-  });
-
-  const { data: yourUSDCBalance } = useScaffoldContractRead({
-    contractName: "Mock_USDC",
-    functionName: "balanceOf",
-    args: [address],
-  });
-
-  const { data: vaultUSDCBalance } = useScaffoldContractRead({
-    contractName: "Mock_USDC",
-    functionName: "balanceOf",
-    args: [vaultAddress],
-  });
-
-  // // Approve Tokens
-  const { writeAsync: approveTokens } = useScaffoldContractWrite({
-    contractName: "Mock_USDC",
-    functionName: "approve",
-    args: [vaultAddress, multiplyTo1e18("100000000")],
-  });
-
-  const { writeAsync: claimTokens } = useScaffoldContractWrite({
-    contractName: "ERC20_USDC_Faucet",
-    functionName: "claimTokens",
-    // value: parseEther(ethAmount),
-    onBlockConfirmation: (txnReceipt: TransactionReceipt) => {
-      console.log("📦 Transaction blockHash", txnReceipt.blockHash);
-    },
+const CustomTab: React.FC<CustomTabProps> = ({ label, isActive, onClick, icon }) => {
+  const tabClasses = classNames({
+    "bg-secondary shadow-md": isActive,
+    "hover:bg-secondary hover:shadow-md": !isActive,
+    "py-1.5 px-3 text-2xl rounded-full grid grid-flow-col": true,
   });
 
   return (
-    <div className="flex items-center flex-col flex-grow pt-2">
-      {/* <div className="tabs tabs-boxed flex justify-between w-screen px-6 pb-4 lg:justify-evenly lg:w-[520px]">
-        <Link href="/exchange" className="tab text-xl">
-          Exchange
-        </Link>
-        <Link href="/" className="tab text-xl">
-          Vault
-        </Link>
-        <Link href="/trade" className="tab text-xl">
-          Trade
-        </Link>
-        <Link href="/shift" className="tab text-xl">
-          Shift
-        </Link>
-      </div> */}
+    <button onClick={onClick} className={`${tabClasses} mr-2 `}>
+      {icon}
+      {label}
+    </button>
+  );
+};
 
-      <div className="w-screen lg:w-[520px] mt-4">
-        <h1 className="text-2xl text-center">VAULT</h1>
-      </div>
+const Home: React.FC = () => {
+  const [activeTab, setActiveTab] = useState<string>("deposit");
 
-      <div className="card w-96 bg-base-100 shadow-xl mt-8">
-        <div className="card-body">
-          <h2 className="card-title">Deposit USDC:</h2>
-          <EtherInput value={usdcAmount} onChange={amount => setUsdcAmount(amount)} />
-          <div className="card-actions justify-end pt-4">
-            <button
-              className="btn btn-primary"
-              onClick={() => {
-                deposit();
-              }}
-            >
-              Deposit
-            </button>
-          </div>
-        </div>
-      </div>
+  const handleTabChange = (tabName: string) => {
+    setActiveTab(tabName);
+  };
 
-      <div className="card w-96 bg-base-100 shadow-xl mt-8">
-        <div className="card-body">
-          <h2 className="card-title">Withdraw USDC:</h2>
-          <EtherInput value={usdcAmount} onChange={amount => setUsdcAmount(amount)} />
-          <div className="card-actions justify-end pt-4">
-            <button
-              className="btn btn-primary"
-              onClick={() => {
-                withdraw();
-              }}
-            >
-              Withdraw
-            </button>
-          </div>
-        </div>
-      </div>
-
-      <div className="text-2xl flex flex-row justify-between items-center pt-4">
-        <h1>USDC:</h1>
-        <div className="pl-4 pb-2 inline-flex items-center justify-center">
-          {parseFloat(formatEther(yourUSDCBalance || "0")).toFixed(0)} <h1 className="pl-2 pt-2">tokens</h1>
-        </div>
-      </div>
-
-      <div className="text-2xl flex flex-row items-center">
-        <h1>Vault USDC:</h1>
-        <div className="pl-4 pb-2 inline-flex items-center justify-center">
-          {parseFloat(formatEther(vaultUSDCBalance || "0")).toFixed(0)} <h1 className="pl-2 pt-2">tokens</h1>
-        </div>
-      </div>
-
-      <div className="flex flex-row justify-between px-2 w-screen lg:px-0 lg:w-1/5">
-        <div className="flex gap-4">
-          <button
-            className={`btn  ${isApproved ? "btn-disabled" : "btn-primary"}`}
-            onClick={async () => {
-              await approveTokens();
-              setIsApproved(true);
-            }}
-          >
-            Approve Tokens
-          </button>
+  return (
+    <div className="flex items-center flex-col flex-grow pt-6 lg:pt-28 border-2 border-blue-500">
+      <Card className="max-w-md mx-auto rounded-3xl lg:mt-0 mt-14 bg-primary">
+        <div className="justify-center flex">
+          <CustomTab
+            label="Deposit"
+            isActive={activeTab === "deposit"}
+            onClick={() => handleTabChange("deposit")}
+            icon={<UserGroupIcon />}
+          />
+          <CustomTab
+            label="Withdraw"
+            isActive={activeTab === "withdraw"}
+            onClick={() => handleTabChange("withdraw")}
+            icon={<UserIcon />}
+          />
         </div>
         <div>
-          <button
-            className="btn btn-primary"
-            onClick={() => {
-              claimTokens();
-            }}
-          >
-            Claim
-          </button>
+          {activeTab === "deposit" && (
+            <div>
+              <p>This is the Deposit tab content.</p>
+            </div>
+          )}
+          {activeTab === "withdraw" && (
+            <div>
+              <p>This is the Withdraw tab content.</p>
+            </div>
+          )}
         </div>
-      </div>
+      </Card>
     </div>
   );
 };
