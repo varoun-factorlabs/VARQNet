@@ -11,6 +11,7 @@ import { MetaHeader } from "~~/components/MetaHeader";
 import { Balance, EtherInput } from "~~/components/scaffold-eth";
 import { useScaffoldContractRead, useScaffoldContractWrite } from "~~/hooks/scaffold-eth";
 import { multiplyTo1e18 } from "~~/utils/scaffold-eth/priceInWei";
+import DepositWidget from "~~/components/vault/DepositWidget";
 
 type CustomTabProps = {
   label: string;
@@ -42,7 +43,7 @@ const Home: React.FC = () => {
   };
 
   return (
-    <div className="flex items-center flex-col flex-grow pt-6 lg:pt-28 border-2 border-blue-500">
+    <div className="flex items-center flex-col flex-grow pt-6 lg:pt-28">
       <Card className="max-w-md mx-auto rounded-3xl lg:mt-0 mt-14 bg-primary">
         <div className="justify-center flex">
           <CustomTab
@@ -62,6 +63,7 @@ const Home: React.FC = () => {
           {activeTab === "deposit" && (
             <div>
               <p>This is the Deposit tab content.</p>
+              <DepositWidget />
             </div>
           )}
           {activeTab === "withdraw" && (
