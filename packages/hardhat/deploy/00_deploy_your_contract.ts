@@ -95,36 +95,6 @@ const deployYourContract: DeployFunction = async function (hre: HardhatRuntimeEn
     autoMine: true,
   });
 
-  const Fees = await deploy("Fees", {
-    from: deployer,
-    // Contract constructor arguments
-    args: [], //[deployer],
-    log: true,
-    // autoMine: can be passed to the deploy function to make the deployment process faster on local networks by
-    // automatically mining the contract deployment transaction. There is no effect on live networks.
-    autoMine: true,
-  });
-
-  const Owned = await deploy("Owned", {
-    from: deployer,
-    // Contract constructor arguments
-    args: [], //[deployer],
-    log: true,
-    // autoMine: can be passed to the deploy function to make the deployment process faster on local networks by
-    // automatically mining the contract deployment transaction. There is no effect on live networks.
-    autoMine: true,
-  });
-
-  const PoolManager = await deploy("PoolManager", {
-    from: deployer,
-    // Contract constructor arguments
-    args: [], //[deployer],
-    log: true,
-    // autoMine: can be passed to the deploy function to make the deployment process faster on local networks by
-    // automatically mining the contract deployment transaction. There is no effect on live networks.
-    autoMine: true,
-  });
-
   // address _owner,
   // address _usdc,
   // address _bTTDC,
