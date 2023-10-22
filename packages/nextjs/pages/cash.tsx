@@ -193,9 +193,29 @@ const CashPage = () => {
   };
 
   return (
+    // <div className="border-2 border-red-500 flex items-center flex-col flex-grow pt-10 lg:pt-16">
+    //   <h1>Your Balance: </h1>
+    //   <div className="flex flex-row">
+    //     <div className="pb-1 inline-flex items-center justify-center">
+    //       {parseFloat(formatEther(yourBTTDCBalance || "0")).toFixed(0)} <h1 className="pl-2 pt-2">bTTDC</h1>
+    //     </div>
+    //   </div>
+    //   <div>
+    //     <button onClick={_cashIn} className="btn btn-secondary mt-4">
+    //       Cash In
+    //     </button>
+    //     <button onClick={_cashOut} className="btn btn-secondary mt-4">
+    //       Cash Out
+    //     </button>
+    //     <button onClick={_endAcceptMoney} className="btn btn-secondary mt-4">
+    //       End Accept Money
+    //     </button>
+    //   </div>
+    // </div>
     <div className="flex items-center flex-col flex-grow pt-6 lg:pt-12">
       <Card className="max-w-sm mx-auto rounded-3xl lg:mt-0 mt-14 bg-primary">
         <div className="justify-center flex flex-col mb-4">
+          {/* <div className="flex bg-secondary rounded-2xl items-left flex-col flex-grow pt-4 mb-2"> */}
           <div className="ml-3 text-2xl">
             <h1>Your Balance: </h1>
             <div className="flex flex-row">
@@ -204,16 +224,17 @@ const CashPage = () => {
               </div>
             </div>
           </div>
+          {/* </div> */}
 
           <div className="flex bg-secondary rounded-2xl items-left flex-col flex-grow pt-4 mb-2 mt-3">
             <div className="mb-6 text-xl">
               <h1 className="mb-2 ml-3">Cash Out</h1>
-              <div className={`flex ml-2 text-accent`}>
+              <div className={`flex ml-2`}>
                 <input
-                  value={cashOutAmount}
+                  value={topUpAmount}
                   onChange={handleBttdcCashOut}
                   placeholder="0"
-                  className="input input-ghost text-3xl focus:outline-none focus:bg-transparent h-[2.2rem] min-h-[2.2rem] px-1 border w-full font-medium placeholder:text-accent/50 text-gray-400"
+                  className="input input-ghost text-3xl focus:outline-none focus:bg-transparent h-[2.2rem] min-h-[2.2rem] px-1 border w-full font-medium placeholder:text-black"
                 />
               </div>
             </div>
@@ -222,9 +243,9 @@ const CashPage = () => {
           <div className="flex bg-secondary rounded-2xl items-left flex-col flex-grow pt-4 mb-2 mt-3">
             <div className="mb-3">
               <h1 className="mb-2 ml-3 text-xl">Cash available for withdrawal</h1>
-              <div className={`flex ml-2 text-accent`}>
-                <h1 className="pt-2 text-3xl">$</h1>
-                {topUpAmount}
+              <div className={`flex ml-2 flex flex-row items-center align-center`}>
+                <h1 className="text-3xl">$</h1>
+                <h1 className="pl-1 text-3xl">{topUpAmount}</h1>
               </div>
             </div>
           </div>
