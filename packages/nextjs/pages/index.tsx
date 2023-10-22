@@ -9,9 +9,9 @@ import { UserGroupIcon, UserIcon } from "@heroicons/react/24/outline";
 // import { BugAntIcon, MagnifyingGlassIcon, SparklesIcon } from "@heroicons/react/24/outline";
 import { MetaHeader } from "~~/components/MetaHeader";
 import { Balance, EtherInput } from "~~/components/scaffold-eth";
+import DepositWidget from "~~/components/vault/DepositWidget";
 import { useScaffoldContractRead, useScaffoldContractWrite } from "~~/hooks/scaffold-eth";
 import { multiplyTo1e18 } from "~~/utils/scaffold-eth/priceInWei";
-import DepositWidget from "~~/components/vault/DepositWidget";
 
 type CustomTabProps = {
   label: string;
@@ -45,7 +45,7 @@ const Home: React.FC = () => {
   return (
     <div className="flex items-center flex-col flex-grow pt-6 lg:pt-28">
       <Card className="max-w-md mx-auto rounded-3xl lg:mt-0 mt-14 bg-primary">
-        <div className="justify-center flex">
+        <div className="justify-center flex mb-6">
           <CustomTab
             label="Deposit"
             isActive={activeTab === "deposit"}
@@ -62,7 +62,6 @@ const Home: React.FC = () => {
         <div>
           {activeTab === "deposit" && (
             <div>
-              <p>This is the Deposit tab content.</p>
               <DepositWidget />
             </div>
           )}

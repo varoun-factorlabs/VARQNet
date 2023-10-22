@@ -2,7 +2,6 @@ import { HardhatRuntimeEnvironment } from "hardhat/types";
 import { DeployFunction } from "hardhat-deploy/types";
 import dotenv from "dotenv";
 dotenv.config();
-
 /**
  * Deploys a contract named "YourContract" using the deployer account and
  * constructor arguments set to the deployer address
@@ -23,6 +22,7 @@ const deployYourContract: DeployFunction = async function (hre: HardhatRuntimeEn
   const { deployer } = await hre.getNamedAccounts();
   const { deploy } = hre.deployments;
   const wallet = process.env.HARDHAT_USER_WALLET_ADDRESS as string;
+  const usdc_token: string = "0xD87Ba7A50B2E7E660f678A895E4B72E7CB4CCd9C";
 
   const SendToken = await deploy("SendToken", {
     from: deployer,
@@ -39,6 +39,7 @@ const deployYourContract: DeployFunction = async function (hre: HardhatRuntimeEn
     // Contract constructor arguments
 
     args: [SendToken.address], //[deployer],
+    // args: [usdc_token], //[deployer],
     log: true,
     // autoMine: can be passed to the deploy function to make the deployment process faster on local networks by
     // automatically mining the contract deployment transaction. There is no effect on live networks.
