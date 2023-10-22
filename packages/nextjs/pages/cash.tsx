@@ -94,10 +94,10 @@ const CashPage = () => {
             getPaymentNameByType("cash")
                 .then(function (name) {
                     MBirdSdk
-                        .Payment.EndAcceptMoney(topUpAmount, name, null, window.transactionReference)
+                        .Payment.EndAcceptMoney(parseInt(topUpAmount)*100, name, null, window.transactionReference)
                         .then(function (result) {
                             output("Payment.EndAcceptMoney " + window.transactionReference, result);
-                            handleAction("Payment.CashBack");
+                            // handleAction("Payment.CashBack");
                         }).catch(function (error) {
                         output("Payment.EndAcceptMoney " + window.transactionReference + " error", error, true);
                     });
