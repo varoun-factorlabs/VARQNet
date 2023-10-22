@@ -5,7 +5,7 @@ import { useAccount } from "wagmi";
 import { useScaffoldContractRead, useScaffoldContractWrite } from "~~/hooks/scaffold-eth";
 import { multiplyTo1e18 } from "~~/utils/scaffold-eth/priceInWei";
 
-const DepositWidget = () => {
+const WithdrawWidget = () => {
   const vaultAddress = process.env.NEXT_PUBLIC_VAULT_ADDRESS;
   const [usdcAmount, setUsdcAmount] = useState("");
   const [bttdcAmount, setBttdcAmount] = useState("");
@@ -31,10 +31,20 @@ const DepositWidget = () => {
   interface TransactionReceipt {
     blockHash: string;
   }
-  const { writeAsync: deposit_ttdc } = useScaffoldContractWrite({
+  const { writeAsync: withdraw_vttdc } = useScaffoldContractWrite({
     contractName: "Vault",
-    functionName: "deposit_bTTDC",
+    functionName: "withdraw_bTTDC",
     args: [BigInt(multiplyTo1e18(bttdcAmount))],
+    // value: parseEther(ethAmount),
+    onBlockConfirmation: (txnReceipt: TransactionReceipt) => {
+      console.log("📦 Transaction blockHash", txnReceipt.blockHash);
+    },
+  });
+
+  const { writeAsync: withdraw_usdc } = useScaffoldContractWrite({
+    contractName: "Vault",
+    functionName: "withdraw_USDC",
+    args: [BigInt(multiplyTo1e18(usdcAmount))],
     // value: parseEther(ethAmount),
     onBlockConfirmation: (txnReceipt: TransactionReceipt) => {
       console.log("📦 Transaction blockHash", txnReceipt.blockHash);
@@ -168,7 +178,7 @@ const DepositWidget = () => {
 
       <div className="flex bg-secondary rounded-2xl items-left flex-col flex-grow pt-6 mb-4">
         <div className="mb-6">
-          <h1 className="mb-2 ml-3">Deposit TTDC</h1>
+          <h1 className="mb-2 ml-3">Withdraw vTTDC</h1>
           <div className={`flex ml-2 text-accent`}>
             <input
               value={bttdcAmount}
@@ -184,17 +194,17 @@ const DepositWidget = () => {
         <button
           className="btn btn-neutral w-full mb-10"
           onClick={() => {
-            deposit_ttdc();
+            withdraw_vttdc();
             handleBttdcChange(null, true);
           }}
         >
-          Deposit
+          Withdraw
         </button>
       </div>
 
       <div className="flex bg-secondary rounded-2xl items-left flex-col flex-grow pt-6 mb-4">
         <div className="mb-6">
-          <h1 className="mb-2 ml-3">Deposit USDC</h1>
+          <h1 className="mb-2 ml-3">Withdraw USDC</h1>
           <div className={`flex ml-2 text-accent`}>
             <input
               value={usdcAmount}
@@ -210,11 +220,11 @@ const DepositWidget = () => {
         <button
           className="btn btn-neutral w-full"
           onClick={() => {
-            deposit_usdc();
+            withdraw_usdc();
             handleUsdcChange(null, true);
           }}
         >
-          Deposit
+          Withdraw
         </button>
       </div>
 
@@ -257,4 +267,4 @@ const DepositWidget = () => {
   );
 };
 
-export default DepositWidget;
+export default WithdrawWidget;

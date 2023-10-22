@@ -47,7 +47,7 @@ const TransferWidget = (props: Props) => {
         <div>{priceLimit && priceLimit}</div>
         <div className="row py-5 flex justify-center">
           <Button className="rounded-full px-8 bg-secondary" size="md" onClick={handleTransposeTokens}>
-            FLIP
+            SWAP
           </Button>
         </div>
         <CurrencyInput value={token1Amount} onChange={handleTokenOutChange} />
