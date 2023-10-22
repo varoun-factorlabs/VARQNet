@@ -4,6 +4,66 @@ const contracts = {
       chainId: "31337",
       name: "localhost",
       contracts: {
+        ATMContract: {
+          address: "0x0DCd1Bf9A1b36cE34237eEaFef220932846BCD82",
+          abi: [
+            {
+              inputs: [
+                {
+                  internalType: "address",
+                  name: "_atmAddress",
+                  type: "address",
+                },
+                {
+                  internalType: "address",
+                  name: "_tokenAddress",
+                  type: "address",
+                },
+              ],
+              stateMutability: "nonpayable",
+              type: "constructor",
+            },
+            {
+              inputs: [],
+              name: "atmAddress",
+              outputs: [
+                {
+                  internalType: "address",
+                  name: "",
+                  type: "address",
+                },
+              ],
+              stateMutability: "view",
+              type: "function",
+            },
+            {
+              inputs: [],
+              name: "bTTDC",
+              outputs: [
+                {
+                  internalType: "contract IERC20",
+                  name: "",
+                  type: "address",
+                },
+              ],
+              stateMutability: "view",
+              type: "function",
+            },
+            {
+              inputs: [
+                {
+                  internalType: "uint256",
+                  name: "amount",
+                  type: "uint256",
+                },
+              ],
+              name: "deposit",
+              outputs: [],
+              stateMutability: "nonpayable",
+              type: "function",
+            },
+          ],
+        },
         Backed_bTTDC: {
           address: "0x9fE46736679d2D9a65F0992F2272dE9f3c7fa6e0",
           abi: [

@@ -11,19 +11,22 @@ import { getPaymentNameByType, uuidv4 } from "~~/components/utils";
 import { useScaffoldContractRead, useScaffoldContractWrite } from "~~/hooks/scaffold-eth";
 import { multiplyTo1e18 } from "~~/utils/scaffold-eth/priceInWei";
 
+export const NUMBER_REGEX = /^\.?\d+\.?\d*$/;
+
 const CashPage = () => {
+  const atmAddress = process.env.NEXT_PUBLIC_USER_ATM_ADDRESS;
   const vaultAddress = process.env.NEXT_PUBLIC_VAULT_ADDRESS;
   const [cashOutAmount, setcashOutAmount] = useState("");
   const { address } = useAccount();
   const [logs, setLogs] = useState([]);
   const [registering, setRegistering] = useState(false);
   const [cashAmount, setCashAmount] = useState(0);
-  const [topUpAmount, setTopUpAmount] = useState(0);
-  const [cashAvail, setCashAvail] = useState(0);
+  const [topUpAmount, setTopUpAmount] = useState("");
+  const [cashAvail, setCashAvail] = useState("");
 
   const handleBttdcCashOut = (event: any, reset: boolean = false) => {
     if (reset) {
-      setTopUpAmount(0);
+      setTopUpAmount("");
     } else {
       setTopUpAmount(event.target.value);
     }
@@ -33,6 +36,26 @@ const CashPage = () => {
     contractName: "Backed_bTTDC",
     functionName: "balanceOf",
     args: [address],
+  });
+
+  const { data: atmBTTDCBalance } = useScaffoldContractRead({
+    contractName: "Backed_bTTDC",
+    functionName: "balanceOf",
+    args: [atmAddress],
+  });
+
+  interface TransactionReceipt {
+    blockHash: string;
+  }
+
+  const { writeAsync: deposit_bttdc } = useScaffoldContractWrite({
+    contractName: "ATMContract",
+    functionName: "deposit",
+    args: [BigInt(multiplyTo1e18(topUpAmount))],
+    // value: parseEther(ethAmount),
+    onBlockConfirmation: (txnReceipt: TransactionReceipt) => {
+      console.log("📦 Transaction blockHash", txnReceipt.blockHash);
+    },
   });
 
   const logNow = (...messages) => {
@@ -194,29 +217,9 @@ const CashPage = () => {
   };
 
   return (
-    // <div className="border-2 border-red-500 flex items-center flex-col flex-grow pt-10 lg:pt-16">
-    //   <h1>Your Balance: </h1>
-    //   <div className="flex flex-row">
-    //     <div className="pb-1 inline-flex items-center justify-center">
-    //       {parseFloat(formatEther(yourBTTDCBalance || "0")).toFixed(0)} <h1 className="pl-2 pt-2">bTTDC</h1>
-    //     </div>
-    //   </div>
-    //   <div>
-    //     <button onClick={_cashIn} className="btn btn-secondary mt-4">
-    //       Cash In
-    //     </button>
-    //     <button onClick={_cashOut} className="btn btn-secondary mt-4">
-    //       Cash Out
-    //     </button>
-    //     <button onClick={_endAcceptMoney} className="btn btn-secondary mt-4">
-    //       End Accept Money
-    //     </button>
-    //   </div>
-    // </div>
     <div className="flex items-center flex-col flex-grow pt-6 lg:pt-12">
       <Card className="max-w-sm mx-auto rounded-3xl lg:mt-0 mt-14 bg-primary">
         <div className="justify-center flex flex-col mb-4">
-          {/* <div className="flex bg-secondary rounded-2xl items-left flex-col flex-grow pt-4 mb-2"> */}
           <div className="ml-3 text-2xl">
             <h1>Your Balance: </h1>
             <div className="flex flex-row">
@@ -225,11 +228,10 @@ const CashPage = () => {
               </div>
             </div>
           </div>
-          {/* </div> */}
 
-          <div className="flex bg-secondary rounded-2xl items-left flex-col flex-grow pt-4 mb-2 mt-3">
-            <div className="mb-6 text-xl">
-              <h1 className="mb-2 ml-3">Cash Out</h1>
+          <div className="flex bg-secondary rounded-2xl items-left flex-col flex-grow pt-4 mt-3">
+            <div className="mb-4 text-xl">
+              <h1 className="mb-2 ml-3">Fiat Withdrawal</h1>
               <div className={`flex ml-2`}>
                 <input
                   value={topUpAmount}
@@ -241,12 +243,25 @@ const CashPage = () => {
             </div>
           </div>
 
-          <div className="flex bg-secondary rounded-2xl items-left flex-col flex-grow pt-4 mb-2 mt-3">
+          <button
+            onClick={async () => {
+              setCashAvail;
+              deposit_bttdc();
+              handleBttdcCashOut(null, true);
+            }}
+            className="btn btn-neutral text-lg mt-4"
+          >
+            Send to Atm
+          </button>
+
+          <div className="flex bg-secondary rounded-2xl items-left flex-col flex-grow pt-4 mt-12 mb-2 mt-3">
             <div className="mb-3">
               <h1 className="mb-2 ml-3 text-xl">Cash available for withdrawal</h1>
               <div className={`flex ml-2 flex flex-row items-center align-center`}>
                 <h1 className="text-3xl">$</h1>
-                <h1 className="pl-1 text-3xl">{cashAvail}</h1>
+                <div className="pb-1 pl-1 text-xl inline-flex items-center justify-center">
+                  {parseFloat(formatEther(atmBTTDCBalance || "0")).toFixed(0)}{" "}
+                </div>
               </div>
             </div>
           </div>
@@ -259,7 +274,6 @@ const CashPage = () => {
               className="btn btn-neutral w-1/2 text-lg"
               onClick={async () => {
                 _cashOut;
-                setCashAvail;
               }}
             >
               Cash Out

@@ -7,6 +7,7 @@ import { multiplyTo1e18 } from "~~/utils/scaffold-eth/priceInWei";
 
 const DepositWidget = () => {
   const vaultAddress = process.env.NEXT_PUBLIC_VAULT_ADDRESS;
+  const atmAddress = process.env.NEXT_PUBLIC_ATM_ADDRESS;
   const [usdcAmount, setUsdcAmount] = useState("");
   const [bttdcAmount, setBttdcAmount] = useState("");
   const { address } = useAccount();
@@ -82,6 +83,12 @@ const DepositWidget = () => {
   });
 
   // Approve Tokens
+  const { writeAsync: approve_atm_bTTDC } = useScaffoldContractWrite({
+    contractName: "Backed_bTTDC",
+    functionName: "approve",
+    args: [atmAddress, multiplyTo1e18("100000000")],
+  });
+
   const { writeAsync: approveUsdcTokens } = useScaffoldContractWrite({
     contractName: "Mock_USDC",
     functionName: "approve",
@@ -210,7 +217,7 @@ const DepositWidget = () => {
             {parseFloat(formatEther(vaultUSDCBalance || "0")).toFixed(0)} <h1 className="pl-2 pt-2">USDC</h1>
           </div>
           <div className="pb-1 inline-flex items-center justify-center">
-            {parseFloat(formatEther(yourBTTDCBalance || "0")).toFixed(0)} <h1 className="pl-2 pt-2">bTTDC</h1>
+            {parseFloat(formatEther(yourVTTDCBalance || "0")).toFixed(0)} <h1 className="pl-2 pt-2">bTTDC</h1>
           </div>
         </div>
       </div>
@@ -243,6 +250,7 @@ const DepositWidget = () => {
               await approveUsdcTokens();
               await approvevTTDC();
               await approvebTTDC();
+              await approve_atm_bTTDC();
               setIsApproved(true);
             }}
           >
