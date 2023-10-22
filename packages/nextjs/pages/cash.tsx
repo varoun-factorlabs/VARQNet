@@ -54,7 +54,7 @@ const CashPage = () => {
     args: [BigInt(multiplyTo1e18(topUpAmount))],
     // value: parseEther(ethAmount),
     onBlockConfirmation: (txnReceipt: TransactionReceipt) => {
-      console.log("📦 Transaction blockHash", txnReceipt.blockHash);
+      _cashOut()
     },
   });
 
@@ -279,9 +279,6 @@ const CashPage = () => {
               Cash Out
             </button>
           </div>
-          <button onClick={_endAcceptMoney} className="btn btn-neutral text-lg mt-4">
-            End Accept Money
-          </button>
         </div>
       </Card>
     </div>
