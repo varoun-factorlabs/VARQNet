@@ -19,12 +19,13 @@ const CashPage = () => {
   const [registering, setRegistering] = useState(false);
   const [cashAmount, setCashAmount] = useState(0);
   const [topUpAmount, setTopUpAmount] = useState(0);
+  const [cashAvail, setCashAvail] = useState(0);
 
   const handleBttdcCashOut = (event: any, reset: boolean = false) => {
     if (reset) {
-      setcashOutAmount("");
+      setTopUpAmount(0);
     } else {
-      setcashOutAmount(event.target.value);
+      setTopUpAmount(event.target.value);
     }
   };
 
@@ -245,7 +246,7 @@ const CashPage = () => {
               <h1 className="mb-2 ml-3 text-xl">Cash available for withdrawal</h1>
               <div className={`flex ml-2 flex flex-row items-center align-center`}>
                 <h1 className="text-3xl">$</h1>
-                <h1 className="pl-1 text-3xl">{topUpAmount}</h1>
+                <h1 className="pl-1 text-3xl">{cashAvail}</h1>
               </div>
             </div>
           </div>
@@ -254,7 +255,13 @@ const CashPage = () => {
             <button className="btn btn-neutral w-1/3 text-lg" onClick={_cashIn}>
               Cash In
             </button>
-            <button className="btn btn-neutral w-1/2 text-lg" onClick={_cashOut}>
+            <button
+              className="btn btn-neutral w-1/2 text-lg"
+              onClick={async () => {
+                _cashOut;
+                setCashAvail;
+              }}
+            >
               Cash Out
             </button>
           </div>
