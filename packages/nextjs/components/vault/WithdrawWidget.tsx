@@ -51,16 +51,6 @@ const WithdrawWidget = () => {
     },
   });
 
-  const { writeAsync: deposit_usdc } = useScaffoldContractWrite({
-    contractName: "Vault",
-    functionName: "deposit_USDC",
-    args: [BigInt(multiplyTo1e18(usdcAmount))],
-    // value: parseEther(ethAmount),
-    onBlockConfirmation: (txnReceipt: TransactionReceipt) => {
-      console.log("📦 Transaction blockHash", txnReceipt.blockHash);
-    },
-  });
-
   const { data: vaultUSDCBalance } = useScaffoldContractRead({
     contractName: "Mock_USDC",
     functionName: "balanceOf",
@@ -131,7 +121,7 @@ const WithdrawWidget = () => {
   return (
     <div>
       <div className="flex flex-row justify-between">
-        <div className="flex border-2 bg-secondary rounded-2xl items-left flex-col pt-4 mb-4">
+        <div className="flex px-6 bg-secondary rounded-2xl items-left flex-col pt-4 mb-4">
           <h1 className="text-center">Your Balance</h1>
           <div className="mx-3 grid grid-rows-2 grid-flow-col gap-x-4">
             <div className="flex flex-row">
