@@ -64,6 +64,12 @@ module.exports = {
           },
         },
       },
+      // {
+      //   trade: {
+      //     primary: "#d2d3db",
+      //     "primary-content": "#212638",
+      //   }
+      // },
       {
         exampleUi: {
           primary: "#000000",

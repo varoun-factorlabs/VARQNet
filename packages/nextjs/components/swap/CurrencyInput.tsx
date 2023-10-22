@@ -18,7 +18,7 @@ const CurrencyInput = (props: Props) => {
     [onChange],
   );
 
-  return <NumberInput icon={CurrencyDollarIcon} placeholder="0.0" value={value} onChange={handleChange} />;
+  return <NumberInput className="bg-secondary rounded-full" icon={CurrencyDollarIcon} placeholder="0.0" value={value} onChange={handleChange} />;
 };
 
 export default CurrencyInput;

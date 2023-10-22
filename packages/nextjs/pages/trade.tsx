@@ -28,9 +28,9 @@ const Home: NextPage = () => {
 
   return (
     <div className="flex items-center flex-col flex-grow pt-6 lg:pt-28">
-      <Card className="max-w-md mx-auto">
+      <Card className="max-w-md mx-auto rounded-3xl lg:mt-0 mt-14 bg-primary">
         <TabGroup>
-          <TabList className="mt-8">
+          <TabList className="mt-4">
             <Tab icon={UserGroupIcon}>Swap</Tab>
             <Tab icon={UserIcon}>Limit Order</Tab>
             <Tab icon={UserIcon}>TWAP</Tab>

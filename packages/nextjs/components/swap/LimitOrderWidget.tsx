@@ -37,12 +37,12 @@ type LimitPriceWidgetProps = {
 const LimitPriceWidget = (props: LimitPriceWidgetProps) => {
   const { value, onChange } = props;
   return (
-    <Grid numItems={3} className="gap-2 m-3">
-      <Col numColSpan={2} className="p-5 bg-primary rounded-lg">
+    <Grid numItems={3} className="gap-2 mt-3">
+      <Col numColSpan={2} className="p-5 bg-secondary rounded-2xl">
         Price Limit
         <CurrencyInput {...{ value, onChange }} />
       </Col>
-      <Col numColSpan={1} className="p-5 bg-primary rounded-lg">
+      <Col numColSpan={1} className="p-5 bg-secondary rounded-2xl">
         Expiry
       </Col>
     </Grid>
