@@ -121,7 +121,7 @@ const DepositWidget = () => {
   return (
     <div>
       <div className="flex flex-row justify-between">
-        <div className="flex border-2 bg-secondary rounded-2xl items-left flex-col pt-4 mb-4">
+        <div className="flex px-6 bg-secondary rounded-2xl items-left flex-col pt-4 mb-4">
           <h1 className="text-center">Your Balance</h1>
           <div className="mx-3 grid grid-rows-2 grid-flow-col gap-x-4">
             <div className="flex flex-row">
@@ -150,7 +150,7 @@ const DepositWidget = () => {
           </div>
         </div>
 
-        <div className="flex border-2 bg-secondary rounded-2xl items-left flex-col pt-4 px-6 mb-4">
+        <div className="flex bg-secondary rounded-2xl items-left flex-col pt-4 px-6 mb-4">
           <h1 className="text-center">Vault Collateral</h1>
           <div className="flex flex-row">
             <div className="pb-1 inline-flex items-center justify-center">
