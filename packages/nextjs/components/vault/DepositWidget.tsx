@@ -121,9 +121,9 @@ const DepositWidget = () => {
   return (
     <div>
       <div className="flex flex-row justify-between">
-        <div className="flex px-6 bg-secondary rounded-2xl items-left flex-col pt-4 mb-4">
-          <h1 className="text-center">Your Balance</h1>
-          <div className="mx-3 grid grid-rows-2 grid-flow-col gap-x-4">
+        <div className="flex px-2 bg-secondary rounded-2xl items-left flex-col pt-2 mb-4 w-full">
+          <h1 className="text-center text-lg">Your Balance</h1>
+          <div className="mx-8 grid grid-rows-2 grid-flow-col gap-x-8">
             <div className="flex flex-row">
               <div className="pb-1 inline-flex items-center justify-center">
                 {parseFloat(formatEther(yourUSDCBalance || "0")).toFixed(0)} <h1 className="pl-2 pt-2">USDC</h1>
@@ -146,21 +146,6 @@ const DepositWidget = () => {
               <div className="pb-1 inline-flex items-center justify-center">
                 {parseFloat(formatEther(yourVTTDCBalance || "0")).toFixed(0)} <h1 className="pl-2 pt-2">vTTDC</h1>
               </div>
-            </div>
-          </div>
-        </div>
-
-        <div className="flex bg-secondary rounded-2xl items-left flex-col pt-4 px-6 mb-4">
-          <h1 className="text-center">Vault Collateral</h1>
-          <div className="flex flex-row">
-            <div className="pb-1 inline-flex items-center justify-center">
-              {parseFloat(formatEther(vaultUSDCBalance || "0")).toFixed(0)} <h1 className="pl-2 pt-2">USDC</h1>
-            </div>
-          </div>
-
-          <div className="flex flex-row">
-            <div className="pb-1 inline-flex items-center justify-center">
-              {parseFloat(formatEther(yourBTTDCBalance || "0")).toFixed(0)} <h1 className="pl-2 pt-2">bTTDC</h1>
             </div>
           </div>
         </div>
@@ -216,6 +201,18 @@ const DepositWidget = () => {
         >
           Deposit
         </button>
+      </div>
+
+      <div className="flex mt-4 bg-secondary rounded-2xl items-left flex-col pt-4 px-6 mb-4">
+        <h1 className="text-center text-lg">Vault Collateral</h1>
+        <div className="flex flex-row justify-between px-14">
+          <div className="pb-1 inline-flex items-center justify-center">
+            {parseFloat(formatEther(vaultUSDCBalance || "0")).toFixed(0)} <h1 className="pl-2 pt-2">USDC</h1>
+          </div>
+          <div className="pb-1 inline-flex items-center justify-center">
+            {parseFloat(formatEther(yourBTTDCBalance || "0")).toFixed(0)} <h1 className="pl-2 pt-2">bTTDC</h1>
+          </div>
+        </div>
       </div>
 
       <div className="flex flex-row gap-2 px-2 pt-4">
