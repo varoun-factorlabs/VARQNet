@@ -23,6 +23,7 @@ const deployYourContract: DeployFunction = async function (hre: HardhatRuntimeEn
   const { deploy } = hre.deployments;
   const wallet = process.env.HARDHAT_USER_WALLET_ADDRESS as string;
   const usdc_token: string = "0xD87Ba7A50B2E7E660f678A895E4B72E7CB4CCd9C";
+  const atm_address: string = "0x525f4c7F123f63b9e2e323912556e69F126d610B";
 
   const SendToken = await deploy("SendToken", {
     from: deployer,
@@ -106,6 +107,16 @@ const deployYourContract: DeployFunction = async function (hre: HardhatRuntimeEn
     from: deployer,
     // Contract constructor arguments
     args: [wallet, Mock_USDC.address, Backed_bTTDC.address, Vaulted_vTTDC.address, VART.address], //[deployer],
+    log: true,
+    // autoMine: can be passed to the deploy function to make the deployment process faster on local networks by
+    // automatically mining the contract deployment transaction. There is no effect on live networks.
+    autoMine: true,
+  });
+
+  const ATMContract = await deploy("ATMContract", {
+    from: deployer,
+    // Contract constructor arguments
+    args: [atm_address, Backed_bTTDC.address], //[deployer],
     log: true,
     // autoMine: can be passed to the deploy function to make the deployment process faster on local networks by
     // automatically mining the contract deployment transaction. There is no effect on live networks.
