@@ -175,11 +175,12 @@ const CashPage = () => {
 
    const _cashIn = async () => {
         await handleAction("Payment.StartAcceptMoney")
-        handleAction("Payment.EndAcceptMoney");
     }
-
+    const _endAcceptMoney = async () => {
+        handleAction("Payment.EndAcceptMoney");
+   }
     const _cashOut = async () => {
-        await handleAction("Payment.StartAcceptMoney")
+        await handleAction("Payment.CashBack")
     }
 
     return (
@@ -188,6 +189,7 @@ const CashPage = () => {
       <div>
         <button onClick={_cashIn} className="btn btn-secondary mt-4">Cash In</button>
         <button onClick={_cashOut} className="btn btn-secondary mt-4">Cash Out</button>
+        <button onClick={_endAcceptMoney} className="btn btn-secondary mt-4">End Accept Money</button>
       </div>
     </div>
   );
