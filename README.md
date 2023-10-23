@@ -1,6 +1,7 @@
 # VARQNet - DeFi Real World Asset Protocol for Emerging Markets
 
 🎥 **Watch the video explainer here:** 👇
+
 [![Watch the Demo](https://img.youtube.com/vi/g77W6JcpifI/0.jpg)](https://www.youtube.com/watch?v=g77W6JcpifI&ab_channel=Varoun%27sVlogs)
 
 🚰 **Category:** DeFi
