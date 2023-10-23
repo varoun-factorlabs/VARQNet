@@ -42,13 +42,10 @@ Explore the source code, development activity, and design history on our [GitHub
 
 ## The Team
 - **Varoun Hanooman**
-  - Google / YouTube Lead Engineer @doodles
+  - Google / YouTube (AI/ML), Lead Engineer @doodles based in Trinidad and Tobago
 
 - **Mark Pereira**
-  - Fintech / Blockchain Leader in Trinidad and Tobago
-
-- **Zed Labs, CEO**
-  - 5-time ETH hackathon winner
+  - Zed Labs, CEO, Fintech / Blockchain Developer based in Trinidad and Tobago
 
 ## The Problem
 Emerging markets face difficulties in going "on-chain" due to:
