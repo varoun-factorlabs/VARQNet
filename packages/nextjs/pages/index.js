@@ -1,4 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
+import Image from "next/image";
+import howitworks from "../public/howitworks.jpg";
 import YouTube from "react-youtube";
 
 const Home = () => {
@@ -64,6 +66,10 @@ const Home = () => {
         <h1 className="mt-6 text-lg mb-6">Hello ETHGlobal Team</h1>
         <YouTube className="border-2" videoId={"g77W6JcpifI"} opts={opts} onReady={_onReady} />
         {/* <button onClick={togglePause}>{isPaused ? "Play" : "Pause"}</button> */}
+      </div>
+      <div className="mt-8">
+        <h1 className="text-lg text-center">How it works:</h1>
+        <Image src={howitworks} alt="Description of the image" width={645} height={645} />
       </div>
     </div>
   );
