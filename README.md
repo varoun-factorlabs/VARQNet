@@ -38,9 +38,6 @@ VARQNet is built using the following technologies and components:
    - Price Discovery: Determines the "price premium" based on the ratio of VART to DevStable in the liquidity pool.
    - Integration: AMM is integrated with VARP for seamless liquidity provision and token minting/burning.
 
-## GitHub Repository
-Explore the source code, development activity, and design history on our [GitHub repository](https://github.com/varounsvlogs/VARQNet).
-
 ## The Team
 - **Varoun Hanooman**
   - Google / YouTube (AI/ML), Lead Engineer @doodles based in Trinidad and Tobago
