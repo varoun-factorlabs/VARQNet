@@ -61,7 +61,7 @@ VARQNet offers a protocol resistant to capital flight and open to capital attrac
 ## What We Do
 We incentivize cross-border remittances through highly liquid and seamless DeFi primitives and aim to expand to more real-world assets as we grow beyond remittances.
 
-<img width="931" alt="image" src="https://github.com/varounsvlogs/VARQNet/assets/77343605/acef992c-c874-419e-9165-b73e4a035b2f">
+<img width="907" alt="image" src="https://github.com/varounsvlogs/VARQNet/assets/77343605/214547e6-5396-4f2d-9ec1-cb63270c1757">
 
 ## We're Building for the Caribbean First
 With a total addressable market of over $200 billion in the Caribbean, we aim to connect the U.S. to emerging markets through various means, including card payments, mobile money, cash kiosks, and bank transfers.
