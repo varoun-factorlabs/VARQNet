@@ -2,7 +2,7 @@
 
 🎥 **Watch the video explainer here:** 👇
 
-[![Watch the Demo](https://img.youtube.com/vi/g77W6JcpifI/0.jpg)](https://www.youtube.com/watch?v=g77W6JcpifI&ab_channel=Varoun%27sVlogs)
+[![Watch the Demo](https://img.youtube.com/vi/xZe3boGdWq0/0.jpg)](https://www.youtube.com/watch?v=xZe3boGdWq0&ab_channel=Varoun%27sVlogs)
 
 🚰 **Category:** DeFi
 
@@ -71,4 +71,4 @@ With a global total addressable market exceeding $1 trillion, our goal is to ext
 
 For more information, visit [VARQNet](https://varqnet-1.varounhanooman4.repl.co/).
 
-[![Watch the Demo](https://img.youtube.com/vi/g77W6JcpifI/0.jpg)](https://www.youtube.com/watch?v=g77W6JcpifI&ab_channel=Varoun%27sVlogs)
+[![Watch the Demo](https://img.youtube.com/vi/xZe3boGdWq0/0.jpg)](https://www.youtube.com/watch?v=xZe3boGdWq0&ab_channel=Varoun%27sVlogs)
