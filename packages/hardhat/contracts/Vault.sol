@@ -4,6 +4,7 @@ pragma solidity ^0.8.17;
 import { ERC20 } from '@openzeppelin/contracts/token/ERC20/ERC20.sol';
 import { IERC20 } from '@openzeppelin/contracts/interfaces/IERC20.sol';
 import { ERC4626 } from '@openzeppelin/contracts/token/ERC20/extensions/ERC4626.sol';
+import '@openzeppelin/contracts/utils/math/Math.sol';
 
 contract Vault is ERC4626 {
 
@@ -11,8 +12,12 @@ contract Vault is ERC4626 {
         _mint(msg.sender, 1 ether);
     }
 
-    function convertToShares(uint256 assets) public view virtual override returns (uint256) {
+    function _convertToShares(uint256 assets, Math.Rounding rounding) internal pure override returns (uint256) {
         return assets;
+    }
+
+    function _convertToAssets(uint256 shares, Math.Rounding rounding) internal pure override returns (uint256) {
+        return shares;
     }
 }
 
@@ -22,7 +27,11 @@ contract VaultedTTD is ERC4626 {
         _mint(msg.sender, 1 ether);
     }
 
-    function convertToShares(uint256 assets) public view virtual override returns (uint256) {
+    function _convertToShares(uint256 assets, Math.Rounding rounding) internal pure override returns (uint256) {
         return assets;
+    }
+
+    function _convertToAssets(uint256 shares, Math.Rounding rounding) internal pure override returns (uint256) {
+        return shares;
     }
 } 
