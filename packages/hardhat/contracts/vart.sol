@@ -148,7 +148,7 @@ contract VART is ERC20 {
     }
 }
 
-contract Vault {
+contract Vault2 {
     IERC20 public usdc;
     IERC20 public bTTDC;
     Vaulted_vTTDC public vTTDC;

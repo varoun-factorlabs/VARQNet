@@ -4,34 +4,19 @@ pragma solidity ^0.8.17;
 import { ERC20 } from '@openzeppelin/contracts/token/ERC20/ERC20.sol';
 import { IERC20 } from '@openzeppelin/contracts/interfaces/IERC20.sol';
 import { ERC4626 } from '@openzeppelin/contracts/token/ERC20/extensions/ERC4626.sol';
+import { Ownable } from "@openzeppelin/contracts/access/Ownable.sol";
 import '@openzeppelin/contracts/utils/math/Math.sol';
 
-contract Vault is ERC4626 {
-
-    constructor (IERC20 asset_) ERC4626(asset_)  ERC20("Vault Access Reserve Token", "VART") {
-        _mint(msg.sender, 1 ether);
+contract MockERC20 is ERC20, Ownable {
+    constructor(string memory name_, string memory symbol_) ERC20(name_, symbol_) {
+        _mint(msg.sender, 10 ether);
     }
 
-    function _convertToShares(uint256 assets, Math.Rounding rounding) internal pure override returns (uint256) {
-        return assets;
+    function mint(address to, uint256 amount) external onlyOwner{
+        _mint(to, amount);
     }
 
-    function _convertToAssets(uint256 shares, Math.Rounding rounding) internal pure override returns (uint256) {
-        return shares;
+    function burnFrom (address account, uint256 amount) external onlyOwner {
+        _burn(account, amount);
     }
 }
-
-contract VaultedTTD is ERC4626 {
-
-    constructor (IERC20 asset_) ERC4626(asset_)  ERC20("Vaulted TTD", "vTTDC") {
-        _mint(msg.sender, 1 ether);
-    }
-
-    function _convertToShares(uint256 assets, Math.Rounding rounding) internal pure override returns (uint256) {
-        return assets;
-    }
-
-    function _convertToAssets(uint256 shares, Math.Rounding rounding) internal pure override returns (uint256) {
-        return shares;
-    }
-} 
